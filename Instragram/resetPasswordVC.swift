@@ -2,8 +2,8 @@
 //  resetPasswordVC.swift
 //  Instragram
 //
-//  Created by Ahmad Idigov on 07.12.15.
-//  Copyright © 2015 Akhmed Idigov. All rights reserved.
+//  Created by 许敏哲 on 17/9/18.
+//  Copyright © 2018 许敏哲. All rights reserved.
 //
 
 import UIKit
