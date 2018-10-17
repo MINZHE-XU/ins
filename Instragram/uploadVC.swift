@@ -62,11 +62,6 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     
     // func to cal pickerViewController
     func selectImg() {
-//        let picker = UIImagePickerController()
-//        picker.delegate = self
-//        picker.sourceType = .photoLibrary
-//        picker.allowsEditing = true
-//        present(picker, animated: true, completion: nil)
         let picker = YPImagePicker()
         picker.didFinishPicking { (items, _) in
             if let photo = items.singlePhoto {
@@ -86,27 +81,6 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         }
         self.present(picker, animated: true, completion: nil)
     }
-    
-    
-    // hold selected image in picImg object and dissmiss PickerController()
-//    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-//        picImg.image = info[UIImagePickerControllerEditedImage] as? UIImage
-//        self.dismiss(animated: true, completion: nil)
-//
-//        // enable publish btn
-//        publishBtn.isEnabled = true
-//        publishBtn.backgroundColor = UIColor(red: 52.0/255.0, green: 169.0/255.0, blue: 255.0/255.0, alpha: 1)
-//
-//        // unhide remove button
-//        removeBtn.isHidden = false
-//
-//        // implement second tap for zooming image
-//        let zoomTap = UITapGestureRecognizer(target: self, action: #selector(uploadVC.zoomImg))
-//        zoomTap.numberOfTapsRequired = 1
-//        picImg.isUserInteractionEnabled = true
-//        picImg.addGestureRecognizer(zoomTap)
-//    }
-    
     
     // zooming in / out function
     func zoomImg() {
