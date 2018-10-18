@@ -1275,11 +1275,11 @@
             </objects>
             <point key="canvasLocation" x="3434.4000000000001" y="2046.9265367316343"/>
         </scene>
-        <!--users-->
+        <!--discover-->
         <scene sceneID="wZP-xj-W4G">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="PI3-7y-HFx" customClass="navVC" customModule="Instragram" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="users" image="users.png" id="6wX-zn-Zoa"/>
+                    <tabBarItem key="tabBarItem" title="discover" image="users.png" id="6wX-zn-Zoa"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="MGD-rr-jTV">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
