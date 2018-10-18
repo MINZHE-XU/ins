@@ -16,7 +16,7 @@ class followersCell: UITableViewCell {
     @IBOutlet weak var avaImg: UIImageView!
     @IBOutlet weak var usernameLbl: UILabel!
     @IBOutlet weak var followBtn: UIButton!
-    
+    @IBOutlet weak var followCountLbl: UILabel!
     
     // default func
     override func awakeFromNib() {
@@ -27,6 +27,7 @@ class followersCell: UITableViewCell {
         
         avaImg.frame = CGRect(x: 10, y: 10, width: width / 5.3, height: width / 5.3)
         usernameLbl.frame = CGRect(x: avaImg.frame.size.width + 20, y: 28, width: width / 3.2, height: 30)
+        followCountLbl.frame = CGRect(x: avaImg.frame.size.width + 20, y: 48, width: width / 2.0, height: 30)
         followBtn.frame = CGRect(x: width - width / 3.5 - 10, y: 30, width: width / 3.5, height: 30)
         followBtn.layer.cornerRadius = followBtn.frame.size.width / 20
         

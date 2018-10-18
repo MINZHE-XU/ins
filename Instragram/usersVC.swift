@@ -18,6 +18,7 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
     // tableView arrays to hold information from server
     var usernameArray = [String]()
     var avaArray = [PFFile]()
+    var countArray = [Int]()
     
     
     // collectionView UI
@@ -43,9 +44,9 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
         
         // call functions
         loadUsers()
-        
         // call collectionView
-        collectionViewLaunch()
+        //collectionViewLaunch()
+        //collectionView.isHidden = true
     }
     
     
@@ -53,33 +54,72 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
     // SEARCHING CODE
     // load users function
     func loadUsers() {
+        let root = "ccc"
         
-        let usersQuery = PFQuery(className: "_User")
-        usersQuery.addDescendingOrder("createdAt")
-        usersQuery.limit = 20
-        usersQuery.findObjectsInBackground (block: { (objects, error) -> Void in
+        let followQuery = PFQuery(className: "follow")
+        followQuery.whereKey("follower", equalTo: root)
+        
+        //usersQuery.limit = 20
+        followQuery.findObjectsInBackground (block: { (objects, error) -> Void in
             if error == nil {
-                
                 // clean up
                 self.usernameArray.removeAll(keepingCapacity: false)
                 self.avaArray.removeAll(keepingCapacity: false)
-                
-                // found related objects
+                self.countArray.removeAll(keepingCapacity: false)
+                var subFollowingList=[String]()
+                var followingQueryList = [PFQuery]()
+
                 for object in objects! {
-                    self.usernameArray.append(object.value(forKey: "username") as! String)
-                    self.avaArray.append(object.value(forKey: "ava") as! PFFile)
+                    let elementQuery = PFQuery(className:"follow")
+                    elementQuery.whereKey("follower", equalTo: object.value(forKey: "following") as! String )
+                    followingQueryList.append(elementQuery)
                 }
+                let listQuery = PFQuery.orQuery(withSubqueries: followingQueryList)
                 
-                // reload
-                self.tableView.reloadData()
+                //get sub followers
+                listQuery.findObjectsInBackground (block: { (objects2, error2) -> Void in
+                    if error2 == nil {
+                        var userQueryList = [PFQuery]()
+                        
+                        for object2 in objects2! {
+                            subFollowingList.append(object2.value(forKey: "following") as! String)
+                            let elementQuery2 = PFQuery(className:"_User")
+                            elementQuery2.whereKey("username", equalTo: object2.value(forKey: "following") as! String )
+                            userQueryList.append(elementQuery2)
+                        }
+                        print(subFollowingList)
+                        let subFollowingUser = self.order(strList:subFollowingList ,ruleOut:root).sorted { $0.1 > $1.1 }
+                        print(subFollowingUser)
+                        
+                        let listUserQuery = PFQuery.orQuery(withSubqueries: userQueryList)
+                        
+                        // get sub follower informatin
+                        listUserQuery.findObjectsInBackground (block: { (objects3, error3) -> Void in
+                            if error3 == nil {
+                                print("::::::")
+                                for u in subFollowingUser {
+                                    for object3 in objects3! {
+                                        let obUserName = object3.value(forKey: "username") as! String
+                                        if obUserName == u.key {
+                                            self.usernameArray.append(obUserName)
+                                            self.avaArray.append(object3.object(forKey: "ava") as! PFFile)
+                                            self.countArray.append(u.value)
+                                        }
+                                        
+                                    }
+                                }
+                                self.tableView.reloadData()
+                            } else {print(error3!.localizedDescription)}
+                        })
+           
+                    } else {print(error2!.localizedDescription)}
+                })
                 
-            } else {
-                print(error!.localizedDescription)
-            }
+            } else {print(error!.localizedDescription)}
         })
-        
     }
     
+
     
     // search updated
     func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -101,11 +141,14 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
                             // clean up
                             self.usernameArray.removeAll(keepingCapacity: false)
                             self.avaArray.removeAll(keepingCapacity: false)
+                            self.countArray.removeAll(keepingCapacity: false)
                             
                             // found related objects
                             for object in objects! {
                                 self.usernameArray.append(object.object(forKey: "username") as! String)
                                 self.avaArray.append(object.object(forKey: "ava") as! PFFile)
+                                self.countArray.append(0)
+                                
                             }
                             
                             // reload
@@ -118,11 +161,13 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
                 // clean up
                 self.usernameArray.removeAll(keepingCapacity: false)
                 self.avaArray.removeAll(keepingCapacity: false)
+                self.countArray.removeAll(keepingCapacity: false)
                 
                 // found related objects
                 for object in objects! {
                     self.usernameArray.append(object.object(forKey: "username") as! String)
                     self.avaArray.append(object.object(forKey: "ava") as! PFFile)
+                    self.countArray.append(0)
                 }
                 
                 // reload
@@ -139,7 +184,7 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         
         // hide collectionView when started search
-        collectionView.isHidden = true
+        //collectionView.isHidden = true
         
         // show cancel button
         searchBar.showsCancelButton = true
@@ -150,7 +195,7 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         
         // unhide collectionView when tapped cancel button
-        collectionView.isHidden = false
+        //collectionView.isHidden = false
         
         // dismiss keyboard
         searchBar.resignFirstResponder()
@@ -189,6 +234,15 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
         
         // connect cell's objects with received infromation from server
         cell.usernameLbl.text = usernameArray[indexPath.row]
+        if countArray[indexPath.row]==0 {
+             cell.followCountLbl.text = ""
+        }else if countArray[indexPath.row]==1{
+            cell.followCountLbl.text = "followed by " + "\(countArray[indexPath.row])" + " following"
+        }else {
+            cell.followCountLbl.text = "followed by " + "\(countArray[indexPath.row])" + " followings"
+        }
+
+        
         avaArray[indexPath.row].getDataInBackground { (data, error) -> Void in
             if error == nil {
                 cell.avaImg.image = UIImage(data: data!)
@@ -216,7 +270,7 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
         }
     }
     
-    
+    /**
     
     // COLLECTION VIEW CODE
     func collectionViewLaunch() {
@@ -247,7 +301,7 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
         // call function to load posts
         loadPosts()
     }
-    
+    */
     
     // cell line spasing
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -366,6 +420,16 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
             
         }
         
+    }
+    
+    func order(strList:[String],ruleOut:String )-> [String: Int]{
+        var followDict = [String: Int]()
+        for s in strList {
+            if !(s==ruleOut) {
+                followDict.updateValue((followDict[s] ?? 0)+1, forKey: s)
+            }
+        }
+        return followDict
     }
     
 }
