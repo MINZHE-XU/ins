@@ -1108,6 +1108,13 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="followCountLbl" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4G3-BY-wkg">
+                                            <rect key="frame" x="78" y="48" width="124" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Giy-y2-oHd">
                                             <rect key="frame" x="222" y="26" width="90" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1126,6 +1133,7 @@
                                 <connections>
                                     <outlet property="avaImg" destination="yui-0a-Ne0" id="2Wk-Gg-Mfo"/>
                                     <outlet property="followBtn" destination="Giy-y2-oHd" id="9uh-9X-vP0"/>
+                                    <outlet property="followCountLbl" destination="4G3-BY-wkg" id="I3F-8o-ceI"/>
                                     <outlet property="usernameLbl" destination="0tv-29-dj8" id="wRN-ra-EuE"/>
                                 </connections>
                             </tableViewCell>

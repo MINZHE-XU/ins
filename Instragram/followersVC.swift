@@ -171,6 +171,7 @@ class followersVC: UITableViewController {
 
         // define cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! followersCell
+        cell.followCountLbl.text = ""
         
         // STEP 1. Connect data from serv to objects
         cell.usernameLbl.text = usernameArray[indexPath.row]

@@ -17,9 +17,9 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
     
     // tableView arrays to hold information from server
     var usernameArray = [String]()
+    
     var avaArray = [PFFile]()
     var countArray = [Int]()
-    
     
     // collectionView UI
     var collectionView : UICollectionView!
@@ -54,7 +54,9 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
     // SEARCHING CODE
     // load users function
     func loadUsers() {
-        let root = "ccc"
+        
+        
+        let root = PFUser.current()!.username!
         
         let followQuery = PFQuery(className: "follow")
         followQuery.whereKey("follower", equalTo: root)
@@ -248,7 +250,8 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
                 cell.avaImg.image = UIImage(data: data!)
             }
         }
-
+        
+        
         return cell
     }
 
