@@ -19,6 +19,7 @@ class postCell: UITableViewCell {
     
     // main picture
     @IBOutlet weak var picImg: UIImageView!
+
     
     // buttons
     @IBOutlet weak var likeBtn: UIButton!
@@ -29,7 +30,9 @@ class postCell: UITableViewCell {
     @IBOutlet weak var likeLbl: UILabel!
     @IBOutlet weak var titleLbl: KILabel!
     @IBOutlet weak var uuidLbl: UILabel!
+    @IBOutlet weak var likepeopleLbl: UILabel!
     
+
     
     // default func
     override func awakeFromNib() {
@@ -62,40 +65,37 @@ class postCell: UITableViewCell {
         likeLbl.translatesAutoresizingMaskIntoConstraints = false
         titleLbl.translatesAutoresizingMaskIntoConstraints = false
         uuidLbl.translatesAutoresizingMaskIntoConstraints = false
+        likepeopleLbl.translatesAutoresizingMaskIntoConstraints = false
         
         let pictureWidth = width
         
         // constraints
         self.contentView.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "V:|-10-[ava(30)]-10-[pic(\(pictureWidth))]-5-[like(30)]",
-            options: [], metrics: nil, views: ["ava":avaImg, "pic":picImg, "like":likeBtn]))
+            withVisualFormat: "V:|-10-[ava(50)]-5-[pic(\(pictureWidth))]-5-[like(50)]-5-[title]-15-|",
+            options: [], metrics: nil, views: ["ava":avaImg, "pic":picImg, "like":likeBtn, "title":titleLbl]))
         
         self.contentView.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "V:|-10-[username]",
+            withVisualFormat: "V:|-15-[username]",
             options: [], metrics: nil, views: ["username":usernameBtn]))
         
         self.contentView.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "V:[pic]-5-[comment(30)]",
-            options: [], metrics: nil, views: ["pic":picImg, "comment":commentBtn]))
-        
-        self.contentView.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "V:|-15-[date]",
+            withVisualFormat: "V:|-25-[date]",
             options: [], metrics: nil, views: ["date":dateLbl]))
         
         self.contentView.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "V:[like]-5-[title]-5-|",
-            options: [], metrics: nil, views: ["like":likeBtn, "title":titleLbl]))
+            withVisualFormat: "V:[pic]-5-[comment(50)]",
+            options: [], metrics: nil, views: ["ava":avaImg, "pic":picImg, "comment":commentBtn]))
         
         self.contentView.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "V:[pic]-5-[more(30)]",
-            options: [], metrics: nil, views: ["pic":picImg, "more":moreBtn]))
-        
-        self.contentView.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "V:[pic]-10-[likes]",
+            withVisualFormat: "V:[pic]-20-[likes]",
             options: [], metrics: nil, views: ["pic":picImg, "likes":likeLbl]))
         
         self.contentView.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "H:|-10-[ava(30)]-10-[username]",
+            withVisualFormat: "V:[pic]-3-[likepeople(50)]",
+            options: [], metrics: nil, views: ["pic":picImg,"likepeople":likepeopleLbl]))
+        
+        self.contentView.addConstraints(NSLayoutConstraint.constraints(
+            withVisualFormat: "H:|-10-[ava(50)]-10-[username]",
             options: [], metrics: nil, views: ["ava":avaImg, "username":usernameBtn]))
         
         self.contentView.addConstraints(NSLayoutConstraint.constraints(
@@ -103,13 +103,9 @@ class postCell: UITableViewCell {
             options: [], metrics: nil, views: ["pic":picImg]))
         
         self.contentView.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "H:|-15-[like(30)]-10-[likes]-20-[comment(30)]",
-            options: [], metrics: nil, views: ["like":likeBtn, "likes":likeLbl, "comment":commentBtn]))
-        
-        self.contentView.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "H:[more(30)]-15-|",
-            options: [], metrics: nil, views: ["more":moreBtn]))
-        
+            withVisualFormat: "H:|-15-[like(50)]-10-[likes(10)]-10-[likepeople]-30-[comment(50)]-15-|",
+            options: [], metrics: nil, views: ["like":likeBtn, "likes":likeLbl,"likepeople":likepeopleLbl,"comment":commentBtn]))
+
         self.contentView.addConstraints(NSLayoutConstraint.constraints(
             withVisualFormat: "H:|-15-[title]-15-|",
             options: [], metrics: nil, views: ["title":titleLbl]))
@@ -117,6 +113,11 @@ class postCell: UITableViewCell {
         self.contentView.addConstraints(NSLayoutConstraint.constraints(
             withVisualFormat: "H:|[date]-10-|",
             options: [], metrics: nil, views: ["date":dateLbl]))
+        
+        
+
+
+        
         
         // round ava
         avaImg.layer.cornerRadius = avaImg.frame.size.width / 2

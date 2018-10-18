@@ -117,8 +117,7 @@ class postVC: UITableViewController {
         let now = Date()
         let components : NSCalendar.Unit = [.second, .minute, .hour, .day, .weekOfMonth]
         let difference = (Calendar.current as NSCalendar).components(components, from: from!, to: now, options: [])
-        print("aaaaaaaaaaaa")
-        
+
         // logic what to show: seconds, minuts, hours, days or weeks
         if difference.second! <= 0 {
             cell.dateLbl.text = "now"
@@ -158,17 +157,23 @@ class postVC: UITableViewController {
         // count total likes of shown post
         let countLikes = PFQuery(className: "likes")
         countLikes.whereKey("to", equalTo: cell.uuidLbl.text!)
-        countLikes.countObjectsInBackground { (count, error) -> Void in
-            cell.likeLbl.text = "\(count)"
-        }
-        
+        countLikes.findObjectsInBackground (block: { (objects, error) -> Void in
+            if error == nil {
+                cell.likeLbl.text = "\(objects?.count ?? 0)"
+                
+                var str = "Liked by:" + " "
+                for object in objects! {
+                    let user = object.object(forKey: "by") as! String
+                    str = str + user + " "
+                }
+                cell.likepeopleLbl.text = str
+            } else { print(error!.localizedDescription)}
+        })
         
         // asign index
         cell.usernameBtn.layer.setValue(indexPath, forKey: "index")
         cell.commentBtn.layer.setValue(indexPath, forKey: "index")
-        cell.moreBtn.layer.setValue(indexPath, forKey: "index")
-        
-        
+
         // @mention is tapped
         cell.titleLbl.userHandleLinkTapHandler = { label, handle, rang in
             var mention = handle
@@ -236,125 +241,6 @@ class postVC: UITableViewController {
         // go to comments. present vc
         let comment = self.storyboard?.instantiateViewController(withIdentifier: "commentVC") as! commentVC
         self.navigationController?.pushViewController(comment, animated: true)
-    }
-    
-    
-    // clicked more button
-    @IBAction func moreBtn_click(_ sender: AnyObject) {
-        
-        // call index of button
-        let i = sender.layer.value(forKey: "index") as! IndexPath
-        
-        // call cell to call further cell date
-        let cell = tableView.cellForRow(at: i) as! postCell
-        
-        
-        // DELET ACTION
-        let delete = UIAlertAction(title: "Delete", style: .default) { (UIAlertAction) -> Void in
-            
-            // STEP 1. Delete row from tableView
-            self.usernameArray.remove(at: i.row)
-            self.avaArray.remove(at: i.row)
-            self.dateArray.remove(at: i.row)
-            self.picArray.remove(at: i.row)
-            self.titleArray.remove(at: i.row)
-            self.uuidArray.remove(at: i.row)
-            
-            // STEP 2. Delete post from server
-            let postQuery = PFQuery(className: "posts")
-            postQuery.whereKey("uuid", equalTo: cell.uuidLbl.text!)
-            postQuery.findObjectsInBackground(block: { (objects, error) -> Void in
-                if error == nil {
-                    for object in objects! {
-                        object.deleteInBackground(block: { (success, error) -> Void in
-                            if success {
-                                
-                                // send notification to rootViewController to update shown posts
-                                NotificationCenter.default.post(name: Notification.Name(rawValue: "uploaded"), object: nil)
-                                
-                                // push back
-                                _ = self.navigationController?.popViewController(animated: true)
-                            } else {
-                                print(error!.localizedDescription)
-                            }
-                        })
-                    }
-                } else {
-                    print(error?.localizedDescription ?? String())
-                }
-            })
-            
-            // STEP 2. Delete likes of post from server
-            let likeQuery = PFQuery(className: "likes")
-            likeQuery.whereKey("to", equalTo: cell.uuidLbl.text!)
-            likeQuery.findObjectsInBackground(block: { (objects, error) -> Void in
-                if error == nil {
-                    for object in objects! {
-                        object.deleteEventually()
-                    }
-                }
-            })
-            
-            // STEP 3. Delete comments of post from server
-            let commentQuery = PFQuery(className: "comments")
-            commentQuery.whereKey("to", equalTo: cell.uuidLbl.text!)
-            commentQuery.findObjectsInBackground(block: { (objects, error) -> Void in
-                if error == nil {
-                    for object in objects! {
-                        object.deleteEventually()
-                    }
-                }
-            })
-            
-            // STEP 4. Delete hashtags of post from server
-            let hashtagQuery = PFQuery(className: "hashtags")
-            hashtagQuery.whereKey("to", equalTo: cell.uuidLbl.text!)
-            hashtagQuery.findObjectsInBackground(block: { (objects, error) -> Void in
-                if error == nil {
-                    for object in objects! {
-                        object.deleteEventually()
-                    }
-                }
-            })
-        }
-        
-        
-        // COMPLAIN ACTION
-        let complain = UIAlertAction(title: "Complain", style: .default) { (UIAlertAction) -> Void in
-            
-            // send complain to server
-            let complainObj = PFObject(className: "complain")
-            complainObj["by"] = PFUser.current()?.username
-            complainObj["to"] = cell.uuidLbl.text
-            complainObj["owner"] = cell.usernameBtn.titleLabel?.text
-            complainObj.saveInBackground(block: { (success, error) -> Void in
-                if success {
-                    self.alert("Complain has been made successfully", message: "Thank You! We will consider your complain")
-                } else {
-                    self.alert("ERROR", message: error!.localizedDescription)
-                }
-            })
-        }
-        
-        // CANCEL ACTION
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        
-        // create menu controller
-        let menu = UIAlertController(title: "Menu", message: nil, preferredStyle: .actionSheet)
-        
-        
-        // if post belongs to user, he can delete post, else he can't
-        if cell.usernameBtn.titleLabel?.text == PFUser.current()?.username {
-            menu.addAction(delete)
-            menu.addAction(cancel)
-        } else {
-            menu.addAction(complain)
-            menu.addAction(cancel)
-        }
-        
-        // show menu
-        self.present(menu, animated: true, completion: nil)
     }
     
     
