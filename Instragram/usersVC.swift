@@ -89,16 +89,16 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
                             elementQuery2.whereKey("username", equalTo: object2.value(forKey: "following") as! String )
                             userQueryList.append(elementQuery2)
                         }
-                        print(subFollowingList)
+                        //print(subFollowingList)
                         let subFollowingUser = self.order(strList:subFollowingList ,ruleOut:root).sorted { $0.1 > $1.1 }
-                        print(subFollowingUser)
+                        //print(subFollowingUser)
                         
                         let listUserQuery = PFQuery.orQuery(withSubqueries: userQueryList)
                         
                         // get sub follower informatin
                         listUserQuery.findObjectsInBackground (block: { (objects3, error3) -> Void in
                             if error3 == nil {
-                                print("::::::")
+                            
                                 for u in subFollowingUser {
                                     for object3 in objects3! {
                                         let obUserName = object3.value(forKey: "username") as! String

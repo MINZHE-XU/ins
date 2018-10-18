@@ -209,12 +209,16 @@ class commentVC: UIViewController, UITextViewDelegate, UITableViewDelegate, UITa
                 self.tableView.addSubview(self.refresher)
             }
             
+            
+            
             // STEP 2. Request last (page size 15) comments
             let query = PFQuery(className: "comments")
             query.whereKey("to", equalTo: commentuuid.last!)
-            query.skip = count.distance(to: self.page)
+            if self.page < count {
+                query.skip = count.distance(to: self.page)
+            }
             query.addAscendingOrder("createdAt")
-            query.findObjectsInBackground(block: { (objects, erro) -> Void in
+            query.findObjectsInBackground(block: { (objects, error) -> Void in
                 if error == nil {
                     
                     // clean up
@@ -222,15 +226,17 @@ class commentVC: UIViewController, UITextViewDelegate, UITableViewDelegate, UITa
                     self.avaArray.removeAll(keepingCapacity: false)
                     self.commentArray.removeAll(keepingCapacity: false)
                     self.dateArray.removeAll(keepingCapacity: false)
-                    
+
                     // find related objects
                     for object in objects! {
+
                         self.usernameArray.append(object.object(forKey: "username") as! String)
                         self.avaArray.append(object.object(forKey: "ava") as! PFFile)
                         self.commentArray.append(object.object(forKey: "comment") as! String)
                         self.dateArray.append(object.createdAt)
                         self.tableView.reloadData()
                         
+                        //print(self.commentArray)
                         // scroll to bottom
                         self.tableView.scrollToRow(at: IndexPath(row: self.commentArray.count - 1, section: 0), at: UITableViewScrollPosition.bottom, animated: false)
                     }
@@ -244,7 +250,7 @@ class commentVC: UIViewController, UITextViewDelegate, UITableViewDelegate, UITa
     
     
     // pagination
-    func loadMore() {
+    @objc func loadMore() {
         
         // STEP 1. Count total comments in order to skip all except (page size = 15)
         let countQuery = PFQuery(className: "comments")
@@ -426,25 +432,25 @@ class commentVC: UIViewController, UITextViewDelegate, UITableViewDelegate, UITa
         let components : NSCalendar.Unit = [.second, .minute, .hour, .day, .weekOfMonth]
         let difference = (Calendar.current as NSCalendar).components(components, from: from!, to: now, options: [])
         
+        // logic what to show: seconds, minuts, hours, days or weeks
         if difference.second! <= 0 {
             cell.dateLbl.text = "now"
         }
         if difference.second! > 0 && difference.minute! == 0 {
-            cell.dateLbl.text = "\(String(describing: difference.second))s."
+            cell.dateLbl.text = "\(String(describing: difference.second!))s."
         }
         if difference.minute! > 0 && difference.hour! == 0 {
-            cell.dateLbl.text = "\(String(describing: difference.minute))m."
+            cell.dateLbl.text = "\(String(describing: difference.minute!))m."
         }
         if difference.hour! > 0 && difference.day! == 0 {
-            cell.dateLbl.text = "\(String(describing: difference.hour))h."
+            cell.dateLbl.text = "\(String(describing: difference.hour!))h."
         }
         if difference.day! > 0 && difference.weekOfMonth! == 0 {
-            cell.dateLbl.text = "\(String(describing: difference.day))d."
+            cell.dateLbl.text = "\(String(describing: difference.day!))d."
         }
         if difference.weekOfMonth! > 0 {
-            cell.dateLbl.text = "\(String(describing: difference.weekOfMonth))w."
+            cell.dateLbl.text = "\(String(describing: difference.weekOfMonth!))w."
         }
-        
         
         // @mention is tapped
         cell.commentLbl.userHandleLinkTapHandler = { label, handle, rang in

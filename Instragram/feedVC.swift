@@ -255,19 +255,19 @@ class feedVC: UITableViewController {
             cell.dateLbl.text = "now"
         }
         if difference.second! > 0 && difference.minute! == 0 {
-            cell.dateLbl.text = "\(String(describing: difference.second))s."
+            cell.dateLbl.text = "\(String(describing: difference.second!))s."
         }
         if difference.minute! > 0 && difference.hour! == 0 {
-            cell.dateLbl.text = "\(String(describing: difference.minute))m."
+            cell.dateLbl.text = "\(String(describing: difference.minute!))m."
         }
         if difference.hour! > 0 && difference.day! == 0 {
-            cell.dateLbl.text = "\(String(describing: difference.hour))h."
+            cell.dateLbl.text = "\(String(describing: difference.hour!))h."
         }
         if difference.day! > 0 && difference.weekOfMonth! == 0 {
-            cell.dateLbl.text = "\(String(describing: difference.day))d."
+            cell.dateLbl.text = "\(String(describing: difference.day!))d."
         }
         if difference.weekOfMonth! > 0 {
-            cell.dateLbl.text = "\(String(describing: difference.weekOfMonth))w."
+            cell.dateLbl.text = "\(String(describing: difference.weekOfMonth!))w."
         }
         
         
