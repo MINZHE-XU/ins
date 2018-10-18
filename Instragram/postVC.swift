@@ -154,19 +154,24 @@ class postVC: UITableViewController {
             }
         }
         
+        
         // count total likes of shown post
         let countLikes = PFQuery(className: "likes")
         countLikes.whereKey("to", equalTo: cell.uuidLbl.text!)
         countLikes.findObjectsInBackground (block: { (objects, error) -> Void in
             if error == nil {
-                cell.likeLbl.text = "\(objects?.count ?? 0)"
-                
+                let likeCount="\(objects?.count ?? 0)"
+                cell.likeLbl.text = likeCount
                 var str = "Liked by:" + " "
                 for object in objects! {
                     let user = object.object(forKey: "by") as! String
                     str = str + user + " "
                 }
-                cell.likepeopleLbl.text = str
+                if likeCount=="0" {
+                    cell.likepeopleLbl.text = ""
+                }else{
+                    cell.likepeopleLbl.text = str
+                }
             } else { print(error!.localizedDescription)}
         })
         
