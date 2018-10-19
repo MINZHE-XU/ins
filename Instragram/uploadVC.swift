@@ -108,7 +108,7 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
             self.imagePicker.sourceType = .camera
             self.imagePicker.allowsEditing = false
             
-            let overLayImg = LineSepView(frame: CGRect(x: 0, y: kAdjustLength(x: 115), width: ScreenWidth, height: ScreenHeight-kAdjustLength(x: 480)))
+            let overLayImg = LineSepView(frame: CGRect(x: 0, y: 44, width: ScreenWidth, height: ScreenHeight-140-44))
             weak var tmpSelf = self
             overLayImg.cameraClickCallback = {
                 tmpSelf?.imagePicker.cameraOverlayView = nil
@@ -116,7 +116,7 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
             overLayImg.isUserInteractionEnabled = true
             self.imagePicker.cameraOverlayView = overLayImg
             
-            let cameraBtn = UIView(frame: CGRect(x: kAdjustLength(x: 450), y: kAdjustLength(x: 1540), width: kAdjustLength(x: 180), height: kAdjustLength(x: 180)))
+            let cameraBtn = UIView(frame: CGRect(x: ScreenWidth/2.0 - 33, y: ScreenHeight - 140 - 44 + 46, width: 66, height: 66))
             cameraBtn.tag = 100
             cameraBtn.backgroundColor = UIColor.clear
             overLayImg.addSubview(cameraBtn)
