@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		24E457062179B0AE00B58CA3 /* DSPhotoEditorSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24E457052179B0AE00B58CA3 /* DSPhotoEditorSDK.framework */; };
 		24E457072179B0AE00B58CA3 /* DSPhotoEditorSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 24E457052179B0AE00B58CA3 /* DSPhotoEditorSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		24E4570C217A14F700B58CA3 /* LineSepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E4570B217A14F700B58CA3 /* LineSepView.swift */; };
 		521A39121C2D98A60066165F /* commentIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 521A390F1C2D98A60066165F /* commentIcon.png */; };
 		521A39131C2D98A60066165F /* followIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 521A39101C2D98A60066165F /* followIcon.png */; };
 		521A39141C2D98A60066165F /* likeIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 521A39111C2D98A60066165F /* likeIcon.png */; };
@@ -102,6 +103,7 @@
 /* Begin PBXFileReference section */
 		24E457052179B0AE00B58CA3 /* DSPhotoEditorSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DSPhotoEditorSDK.framework; sourceTree = "<group>"; };
 		24E4570A2179B10E00B58CA3 /* InstagramView-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "InstagramView-Bridging-Header.h"; sourceTree = "<group>"; };
+		24E4570B217A14F700B58CA3 /* LineSepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineSepView.swift; sourceTree = "<group>"; };
 		521A390F1C2D98A60066165F /* commentIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = commentIcon.png; sourceTree = "<group>"; };
 		521A39101C2D98A60066165F /* followIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = followIcon.png; sourceTree = "<group>"; };
 		521A39111C2D98A60066165F /* likeIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = likeIcon.png; sourceTree = "<group>"; };
@@ -314,6 +316,7 @@
 				52791CEA1C183A23002DDB39 /* Pacifico.ttf */,
 				524554F31C15A198000E6444 /* Frameworks */,
 				24E4570A2179B10E00B58CA3 /* InstagramView-Bridging-Header.h */,
+				24E4570B217A14F700B58CA3 /* LineSepView.swift */,
 			);
 			path = Instragram;
 			sourceTree = "<group>";
@@ -564,6 +567,7 @@
 				521F4CF01C282A310024A4E0 /* KILabel.m in Sources */,
 				52E0150D1C2C399D00D5CBAA /* newsVC.swift in Sources */,
 				524554CA1C15A114000E6444 /* AppDelegate.swift in Sources */,
+				24E4570C217A14F700B58CA3 /* LineSepView.swift in Sources */,
 				524554F91C15A557000E6444 /* resetPasswordVC.swift in Sources */,
 				526B2B491C19C51E006627DD /* headerView.swift in Sources */,
 				5284FD261C2455EE000689FC /* tabbarVC.swift in Sources */,

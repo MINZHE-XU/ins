@@ -9,7 +9,15 @@
 import UIKit
 import Parse
 
-class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, DSPhotoEditorViewControllerDelegate {
+public let ScreenWidth: CGFloat = UIScreen.main.bounds.size.width
+public let ScreenHeight: CGFloat = UIScreen.main.bounds.size.height
+
+func kAdjustLength(x:CGFloat) -> CGFloat {
+    let adjustLength = ScreenWidth * CGFloat(x) / 1080.0
+    return CGFloat(adjustLength)
+}
+
+class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, DSPhotoEditorViewControllerDelegate, UIGestureRecognizerDelegate {
     
     func dsPhotoEditor(_ editor: DSPhotoEditorViewController!, finishedWith image: UIImage!) {
         self.dismiss(animated: true, completion: nil)
@@ -41,6 +49,7 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     @IBOutlet weak var publishBtn: UIButton!
     @IBOutlet weak var removeBtn: UIButton!
     
+    var imagePicker: UIImagePickerController!
     
     // default func
     override func viewDidLoad() {
@@ -87,18 +96,32 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     @objc func selectImg() {
         let actionSheet = UIAlertController(title: "Choose photo from", message: "", preferredStyle: .actionSheet)
         let libraryAction = UIAlertAction(title: "Photo Library", style: .default) { (action) in
-            let picker = UIImagePickerController()
-            picker.delegate = self
-            picker.sourceType = .photoLibrary
-            picker.allowsEditing = true
-            self.present(picker, animated: true, completion: nil)
+            self.imagePicker = UIImagePickerController()
+            self.imagePicker.delegate = self
+            self.imagePicker.sourceType = .photoLibrary
+            self.imagePicker.allowsEditing = false
+            self.present(self.imagePicker, animated: true, completion: nil)
         }
         let cameraAction = UIAlertAction(title: "Camera", style: .default) { (action) in
-            let picker = UIImagePickerController()
-            picker.delegate = self
-            picker.sourceType = .camera
-            picker.allowsEditing = true
-            self.present(picker, animated: true, completion: nil)
+            self.imagePicker = UIImagePickerController()
+            self.imagePicker.delegate = self
+            self.imagePicker.sourceType = .camera
+            self.imagePicker.allowsEditing = false
+            
+            let overLayImg = LineSepView(frame: CGRect(x: 0, y: kAdjustLength(x: 115), width: ScreenWidth, height: ScreenHeight-kAdjustLength(x: 480)))
+            weak var tmpSelf = self
+            overLayImg.cameraClickCallback = {
+                tmpSelf?.imagePicker.cameraOverlayView = nil
+            }
+            overLayImg.isUserInteractionEnabled = true
+            self.imagePicker.cameraOverlayView = overLayImg
+            
+            let cameraBtn = UIView(frame: CGRect(x: kAdjustLength(x: 450), y: kAdjustLength(x: 1540), width: kAdjustLength(x: 180), height: kAdjustLength(x: 180)))
+            cameraBtn.tag = 100
+            cameraBtn.backgroundColor = UIColor.clear
+            overLayImg.addSubview(cameraBtn)
+            
+            self.present(self.imagePicker, animated: true, completion: nil)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
             
@@ -110,7 +133,10 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let image = info[UIImagePickerControllerEditedImage] as? UIImage
+        let image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        if self.imagePicker.sourceType == .camera {
+            self.imagePicker.cameraOverlayView = nil
+        }
         self.dismiss(animated: true, completion: nil)
         
         let dsPhotoEditorViewController = DSPhotoEditorViewController(image: image!, apiKey: "e8ed493750788d1b46c34d05a50ee6089f39229a", toolsToHide: nil)
