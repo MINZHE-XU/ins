@@ -8,9 +8,32 @@
 
 import UIKit
 import Parse
-import YPImagePicker
 
-class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, DSPhotoEditorViewControllerDelegate {
+    
+    func dsPhotoEditor(_ editor: DSPhotoEditorViewController!, finishedWith image: UIImage!) {
+        self.dismiss(animated: true, completion: nil)
+        
+        self.picImg.image = image
+        
+        // enable publish btn
+        publishBtn.isEnabled = true
+        publishBtn.backgroundColor = UIColor(red: 52.0/255.0, green: 169.0/255.0, blue: 255.0/255.0, alpha: 1)
+        
+        // unhide remove button
+        removeBtn.isHidden = false
+        
+        // implement second tap for zooming image
+        let zoomTap = UITapGestureRecognizer(target: self, action: #selector(uploadVC.zoomImg))
+        zoomTap.numberOfTapsRequired = 1
+        picImg.isUserInteractionEnabled = true
+        picImg.addGestureRecognizer(zoomTap)
+    }
+    
+    func dsPhotoEditorCanceled(_ editor: DSPhotoEditorViewController!) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
 
     // UI objects
     @IBOutlet weak var picImg: UIImageView!
@@ -55,35 +78,48 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     
     
     // hide kyeboard function
-    func hideKeyboardTap() {
+    @objc func hideKeyboardTap() {
         self.view.endEditing(true)
     }
     
     
     // func to cal pickerViewController
-    func selectImg() {
-        let picker = YPImagePicker()
-        picker.didFinishPicking { (items, _) in
-            if let photo = items.singlePhoto {
-                self.picImg.image = photo.image
-                
-                self.publishBtn.isEnabled = true
-                self.publishBtn.backgroundColor = UIColor(red: 52.0/255.0, green: 169.0/255.0, blue: 255.0/255.0, alpha: 1)
-                
-                self.removeBtn.isHidden = false
-                
-                let zoomTap = UITapGestureRecognizer(target: self, action: #selector(uploadVC.zoomImg))
-                zoomTap.numberOfTapsRequired = 1
-                self.picImg.isUserInteractionEnabled = true
-                self.picImg.addGestureRecognizer(zoomTap)
-            }
-            picker.dismiss(animated: true, completion: nil)
+    @objc func selectImg() {
+        let actionSheet = UIAlertController(title: "Choose photo from", message: "", preferredStyle: .actionSheet)
+        let libraryAction = UIAlertAction(title: "Photo Library", style: .default) { (action) in
+            let picker = UIImagePickerController()
+            picker.delegate = self
+            picker.sourceType = .photoLibrary
+            picker.allowsEditing = true
+            self.present(picker, animated: true, completion: nil)
         }
-        self.present(picker, animated: true, completion: nil)
+        let cameraAction = UIAlertAction(title: "Camera", style: .default) { (action) in
+            let picker = UIImagePickerController()
+            picker.delegate = self
+            picker.sourceType = .camera
+            picker.allowsEditing = true
+            self.present(picker, animated: true, completion: nil)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+            
+        }
+        actionSheet.addAction(libraryAction)
+        actionSheet.addAction(cameraAction)
+        actionSheet.addAction(cancelAction)
+        self.present(actionSheet, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let image = info[UIImagePickerControllerEditedImage] as? UIImage
+        self.dismiss(animated: true, completion: nil)
+        
+        let dsPhotoEditorViewController = DSPhotoEditorViewController(image: image!, apiKey: "e8ed493750788d1b46c34d05a50ee6089f39229a", toolsToHide: nil)
+        dsPhotoEditorViewController!.delegate = self
+        self.present(dsPhotoEditorViewController!, animated: true, completion: nil)
     }
     
     // zooming in / out function
-    func zoomImg() {
+    @objc func zoomImg() {
         
         // define frame of zoomed image
         let zoomed = CGRect(x: 0, y: self.view.center.y - self.view.center.x - self.tabBarController!.tabBar.frame.size.height * 1.5, width: self.view.frame.size.width, height: self.view.frame.size.width)
