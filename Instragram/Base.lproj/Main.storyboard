@@ -313,14 +313,6 @@
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="www.udemy.com" textAlignment="natural" id="zbs-eJ-fLu">
-                                    <rect key="frame" x="18" y="134" width="292" height="34"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                    <dataDetectorType key="dataDetectorTypes" link="YES"/>
-                                </textView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6ry-TA-HP5">
                                     <rect key="frame" x="122" y="20" width="50" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -388,7 +380,6 @@
                                 <outlet property="fullnameLbl" destination="qbv-SZ-f9V" id="jgb-xy-fRO"/>
                                 <outlet property="postTitle" destination="d9v-4R-XRE" id="60q-bg-N5s"/>
                                 <outlet property="posts" destination="6ry-TA-HP5" id="MtE-UF-GNc"/>
-                                <outlet property="webTxt" destination="zbs-eJ-fLu" id="Yfq-0X-0Zm"/>
                             </connections>
                         </collectionReusableView>
                         <connections>
