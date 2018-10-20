@@ -10,7 +10,7 @@ import UIKit
 
 class newsCell: UITableViewCell {
 
-    // UI objects
+    // Defining UI objects
     @IBOutlet weak var avaImg: UIImageView!
     @IBOutlet weak var usernameBtn: UIButton!
     @IBOutlet weak var infoLbl: UILabel!
@@ -21,7 +21,7 @@ class newsCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        // constraints
+        // a list of constraints
         avaImg.translatesAutoresizingMaskIntoConstraints = false
         usernameBtn.translatesAutoresizingMaskIntoConstraints = false
         infoLbl.translatesAutoresizingMaskIntoConstraints = false

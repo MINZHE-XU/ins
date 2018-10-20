@@ -12,7 +12,7 @@ import Parse
 
 class signInVC: UIViewController {
     
-    // textfield
+    // text fields
     @IBOutlet weak var label: UILabel!
     
     @IBOutlet weak var usernameTxt: UITextField!
@@ -46,7 +46,7 @@ class signInVC: UIViewController {
         signUpBtn.layer.cornerRadius = signUpBtn.frame.size.width / 40
 
         
-        // tap to hide keyboard
+        // tap to hide phone keyboard
         let hideTap = UITapGestureRecognizer(target: self, action: #selector(signInVC.hideKeyboard(_:)))
         hideTap.numberOfTapsRequired = 1
         self.view.isUserInteractionEnabled = true
@@ -66,17 +66,17 @@ class signInVC: UIViewController {
     }
 
     
-    // clicked sign in button
+    // clicking sign in button...
     @IBAction func signInBtn_click(_ sender: AnyObject) {
         print("sign in pressed")
         
-        // hide keyboard
+        // hide phone keyboard
         self.view.endEditing(true)
         
-        // if textfields are empty
+        // if textfields are empty...
         if usernameTxt.text!.isEmpty || passwordTxt.text!.isEmpty {
             
-            // show alert message
+            // then show the alert message
             let alert = UIAlertController(title: "Please", message: "fill in fields", preferredStyle: UIAlertControllerStyle.alert)
             let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
             alert.addAction(ok)
@@ -87,7 +87,7 @@ class signInVC: UIViewController {
         PFUser.logInWithUsername(inBackground: usernameTxt.text!, password: passwordTxt.text!) { (user, error) -> Void in
             if error == nil {
                 
-                // remember user or save in App Memeory did the user login or not
+                // remember user or save in App Memeory whether the user logged in or not
                 UserDefaults.standard.set(user!.username, forKey: "username")
                 UserDefaults.standard.synchronize()
                 
@@ -97,7 +97,7 @@ class signInVC: UIViewController {
             
             } else {
                 
-                // show alert message
+                // show alert message:
                 let alert = UIAlertController(title: "Error", message: error!.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
                 let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
                 alert.addAction(ok)

@@ -11,7 +11,7 @@ import Parse
 
 class headerView: UICollectionReusableView {
     
-    // UI objects
+    // Defining UI objects
     @IBOutlet weak var avaImg: UIImageView!
     @IBOutlet weak var fullnameLbl: UILabel!
     @IBOutlet weak var bioLbl: UILabel!
@@ -57,7 +57,7 @@ class headerView: UICollectionReusableView {
     }
     
     
-    // clicked follow button from GuestVC
+    // click following button from GuestVC
     @IBAction func followBtn_clicked(_ sender: AnyObject) {
         
         let title = button.title(for: UIControlState())
@@ -70,9 +70,9 @@ class headerView: UICollectionReusableView {
             object.saveInBackground(block: { (success, error) -> Void in
                 if success {
                     self.button.setTitle("FOLLOWING", for: UIControlState())
-                    self.button.backgroundColor = .green
+                    self.button.backgroundColor = UIColor.init(red: 0.00, green: 0.62, blue: 0.85, alpha: 1.0)
                     
-                    // send follow notification
+                    // sending follow confirmation
                     let newsObj = PFObject(className: "news")
                     newsObj["by"] = PFUser.current()?.username
                     newsObj["ava"] = PFUser.current()?.object(forKey: "ava") as! PFFile
@@ -89,7 +89,7 @@ class headerView: UICollectionReusableView {
                 }
             })
             
-            // unfollow
+            // unfollowing
         } else {
             let query = PFQuery(className: "follow")
             query.whereKey("follower", equalTo: PFUser.current()!.username!)

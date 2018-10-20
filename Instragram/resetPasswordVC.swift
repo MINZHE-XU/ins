@@ -12,7 +12,7 @@ import Parse
 
 class resetPasswordVC: UIViewController {
 
-    // textfield
+    // text fields
     @IBOutlet weak var emailTxt: UITextField!
     
     // buttons
@@ -33,7 +33,7 @@ class resetPasswordVC: UIViewController {
         cancelBtn.frame = CGRect(x: self.view.frame.size.width - self.view.frame.size.width / 4 - 20, y: resetBtn.frame.origin.y, width: self.view.frame.size.width / 4, height: 30)
         cancelBtn.layer.cornerRadius = cancelBtn.frame.size.width / 20
         
-        // background
+        // background setting
         let bg = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height))
         bg.image = UIImage(named: "bg.jpg")
         bg.layer.zPosition = -1
@@ -41,13 +41,13 @@ class resetPasswordVC: UIViewController {
     }
     
     
-    // clicked reset button
+    // clicking the reset button
     @IBAction func resetBtn_click(_ sender: AnyObject) {
         
-        // hide keyboard
+        // hide phone keyboard
         self.view.endEditing(true)
         
-        // email textfield is empty
+        // when e-mail text field is empty,
         if emailTxt.text!.isEmpty {
             
             // show alert message
@@ -57,14 +57,14 @@ class resetPasswordVC: UIViewController {
             self.present(alert, animated: true, completion: nil)
         }
         
-        // request for reseting password
+        // reset password request
         PFUser.requestPasswordResetForEmail(inBackground: emailTxt.text!) { (success, error) -> Void in
             if success {
                 
                 // show alert message
                 let alert = UIAlertController(title: "Email for reseting password", message: "has been sent to texted email", preferredStyle: UIAlertControllerStyle.alert)
                 
-                // if pressed OK call self.dismiss.. function
+                // if press OK call self.dismiss.. function
                 let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (UIAlertAction) -> Void in
                     self.dismiss(animated: true, completion: nil)
                 })
@@ -78,10 +78,10 @@ class resetPasswordVC: UIViewController {
     }
     
     
-    // clicked cancel button
+    // clicking cancel button
     @IBAction func cancelBtn_click(_ sender: AnyObject) {
         
-        // hide keyboard when pressed cancel
+        // hide phone keyboard when pressing cancel
         self.view.endEditing(true)
         
         self.dismiss(animated: true, completion: nil)

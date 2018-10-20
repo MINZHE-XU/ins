@@ -11,7 +11,7 @@ import UIKit
 
 class commentCell: UITableViewCell {
 
-    // UI objects
+    // Defining UI objects
     @IBOutlet weak var avaImg: UIImageView!
     @IBOutlet weak var usernameBtn: UIButton!
     @IBOutlet weak var commentLbl: KILabel!
@@ -28,7 +28,7 @@ class commentCell: UITableViewCell {
         commentLbl.translatesAutoresizingMaskIntoConstraints = false
         dateLbl.translatesAutoresizingMaskIntoConstraints = false
         
-        // constraints
+        // A list of constraints
         self.contentView.addConstraints(NSLayoutConstraint.constraints(
             withVisualFormat: "V:|-5-[username]-(-2)-[comment]-5-|",
             options: [], metrics: nil, views: ["username":usernameBtn, "comment":commentLbl]))

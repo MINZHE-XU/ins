@@ -15,7 +15,7 @@ class signUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     // profile image
     @IBOutlet weak var avaImg: UIImageView!
     
-    // textfields
+    // text fields
     @IBOutlet weak var usernameTxt: UITextField!
     @IBOutlet weak var passwordTxt: UITextField!
     @IBOutlet weak var repeatPassword: UITextField!
@@ -32,10 +32,10 @@ class signUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     // scrollView
     @IBOutlet weak var scrollView: UIScrollView!
     
-    // reset default size
+    // reseting default size
     var scrollViewHeight : CGFloat = 0
     
-    // keyboard frame size
+    // phone keyboard frame size
     var keyboard = CGRect()
     
     
@@ -48,11 +48,11 @@ class signUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         scrollView.contentSize.height = self.view.frame.height
         scrollViewHeight = scrollView.frame.size.height
         
-        // check notifications if keyboard is shown or not
+        // check notifications whether the phone keyboard is shown:
         NotificationCenter.default.addObserver(self, selector: #selector(signUpVC.showKeyboard(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(signUpVC.hideKeybard(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
-        // declare hide kyboard tap
+        // declare keyboard hiding tap
         let hideTap = UITapGestureRecognizer(target: self, action: #selector(signUpVC.hideKeyboardTap(_:)))
         hideTap.numberOfTapsRequired = 1
         self.view.isUserInteractionEnabled = true
@@ -62,7 +62,7 @@ class signUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         avaImg.layer.cornerRadius = avaImg.frame.size.width / 2
         avaImg.clipsToBounds = true
         
-        // declare select image tap
+        // declare tapping to select image
         let avaTap = UITapGestureRecognizer(target: self, action: #selector(signUpVC.loadImg(_:)))
         avaTap.numberOfTapsRequired = 1
         avaImg.isUserInteractionEnabled = true
@@ -91,7 +91,7 @@ class signUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     }
     
     
-    // call picker to select image
+    // calling the picker to select a image
     func loadImg(_ recognizer:UITapGestureRecognizer) {
         let picker = UIImagePickerController()
         picker.delegate = self
@@ -101,36 +101,36 @@ class signUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     }
     
     
-    // connect selected image to our ImageView
+    // connecting the selected image to our ImageView
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         avaImg.image = info[UIImagePickerControllerEditedImage] as? UIImage
         self.dismiss(animated: true, completion: nil)
     }
     
     
-    // hide keyboard if tapped
+    // hide phone keyboard when tapped
     func hideKeyboardTap(_ recoginizer:UITapGestureRecognizer) {
         self.view.endEditing(true)
     }
     
     
-    // show keyboard
+    // show phone keyboard
     func showKeyboard(_ notification:Notification) {
         
-        // define keyboard size
+        // define the size of phone keyboard
         keyboard = ((notification.userInfo?[UIKeyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue)!
         
-        // move up UI
+        // Animation when moving up UI
         UIView.animate(withDuration: 0.4, animations: { () -> Void in
             self.scrollView.frame.size.height = self.scrollViewHeight - self.keyboard.height
-        }) 
+        })
     }
     
     
-    // hide keyboard func
+    // hiding phone keyboard func
     func hideKeybard(_ notification:Notification) {
         
-        // move down UI
+        // Animation moving down UI
         UIView.animate(withDuration: 0.4, animations: { () -> Void in
             self.scrollView.frame.size.height = self.view.frame.height
         }) 
@@ -138,11 +138,11 @@ class signUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     
     
     
-    // clicked sign up
+    // clicking sign up button
     @IBAction func signUpBtn_click(_ sender: AnyObject) {
         print("sign up pressed")
         
-        // dismiss keyboard
+        // dismiss the phone keyboard
         self.view.endEditing(true)
         
         // if fields are empty
@@ -157,7 +157,7 @@ class signUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
             return
         }
         
-        // if different passwords
+        // if passwords do not match
         if passwordTxt.text != repeatPassword.text {
             
             // alert message
@@ -170,7 +170,7 @@ class signUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         }
         
         
-        // send data to server to related collumns
+        // sending data to server, related columns
         let user = PFUser()
         user.username = usernameTxt.text?.lowercased()
         user.email = emailTxt.text?.lowercased()
@@ -183,12 +183,12 @@ class signUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         user["tel"] = ""
         user["gender"] = ""
         
-        // convert our image for sending to server
+        // convert our image for the server
         let avaData = UIImageJPEGRepresentation(avaImg.image!, 0.5)
         let avaFile = PFFile(name: "ava.jpg", data: avaData!)
         user["ava"] = avaFile
         
-        // save data in server
+        // saving data in server
         user.signUpInBackground { (success, error) -> Void in
             if success {
                 print("registered")
@@ -197,7 +197,7 @@ class signUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                 UserDefaults.standard.set(user.username, forKey: "username")
                 UserDefaults.standard.synchronize()
                 
-                // call login func from AppDelegate.swift class
+                // call the login func from AppDelegate.swift class
                 let appDelegate : AppDelegate = UIApplication.shared.delegate as! AppDelegate
                 appDelegate.login()
                 
@@ -215,10 +215,10 @@ class signUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     }
     
     
-    // clicked cancel
+    // click to cancel
     @IBAction func cancelBtn_click(_ sender: AnyObject) {
         
-        // hide keyboard when pressed cancel
+        // hide the phone keyboard when pressed cancel
         self.view.endEditing(true)
         
         self.dismiss(animated: true, completion: nil)

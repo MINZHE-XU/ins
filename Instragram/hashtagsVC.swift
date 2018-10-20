@@ -9,16 +9,15 @@
 import UIKit
 import Parse
 
-
 var hashtag = [String]()
 
 class hashtagsVC: UICollectionViewController {
     
-    // UI objects
+    // Defining UI objects
     var refresher : UIRefreshControl!
     var page : Int = 24
     
-    // arrays to hold data from server
+    // Arrays to hold data from the server
     var picArray = [PFFile]()
     var uuidArray = [String]()
     var filterArray = [String]()
@@ -28,69 +27,69 @@ class hashtagsVC: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // be able to pull down even if few post
+        // able to pull down even if few post are there
         self.collectionView?.alwaysBounceVertical = true
         
         // title at the top
         self.navigationItem.title = "#" + "\(hashtag.last!.uppercased())"
         
-        // new back button
+        // new back button:
         self.navigationItem.hidesBackButton = true
         let backBtn = UIBarButtonItem(image: UIImage(named: "back.png"), style: .plain, target: self, action: #selector(hashtagsVC.back(_:)))
         self.navigationItem.leftBarButtonItem = backBtn
         
-        // swipe to go back
+        // swipe to go back:
         let backSwipe = UISwipeGestureRecognizer(target: self, action: #selector(hashtagsVC.back(_:)))
         backSwipe.direction = UISwipeGestureRecognizerDirection.right
         self.view.addGestureRecognizer(backSwipe)
         
-        // pull to refresh
+        // pull to refresh page
         refresher = UIRefreshControl()
         refresher.addTarget(self, action: #selector(hashtagsVC.refresh), for: UIControlEvents.valueChanged)
         collectionView?.addSubview(refresher)
         
-        // call function of loading hashtags
+        // call loading hashtags function
         loadHashtags()
     }
     
     
-    // back function
+    // defining the back function
     func back(_ sender : UIBarButtonItem) {
         
-        // push back
+        // pushing back
         _ = self.navigationController?.popViewController(animated: true)
         
-        // clean hashtag or deduct the last guest userame from guestname = Array
+        // clean hashtag, or deduct the last guest userame from guestname = Array
         if !hashtag.isEmpty {
             hashtag.removeLast()
         }
     }
     
     
-    // refreshing func
+    // defining refresh function
     func refresh() {
         loadHashtags()
     }
 
     
-    // load hashtags function
+    // loading hashtags function
     func loadHashtags() {
                 
-        // STEP 1. Find poss related to hashtags
+        // STEP 1: Find posts related to hashtags
         let hashtagQuery = PFQuery(className: "hashtags")
         hashtagQuery.whereKey("hashtag", equalTo: hashtag.last!)
         hashtagQuery.findObjectsInBackground (block: { (objects, error) -> Void in
             if error == nil {
                 
-                // clean up
+                // cleaning up!
                 self.filterArray.removeAll(keepingCapacity: false)
                 
-                // store related posts in filterArray
+                // store related posts in the filterArray
                 for object in objects! {
                     self.filterArray.append(object.value(forKey: "to") as! String)
                 }
                 
-                //STEP 2. Find posts that have uuid appended to filterArray
+                //STEP 2: Find posts that have UUID appended to the filterArray
                 let query = PFQuery(className: "posts")
                 query.whereKey("uuid", containedIn: self.filterArray)
                 query.limit = self.page
@@ -98,11 +97,11 @@ class hashtagsVC: UICollectionViewController {
                 query.findObjectsInBackground(block: { (objects, error) -> Void in
                     if error == nil {
                         
-                        // clean up
+                        // cleaning up!
                         self.picArray.removeAll(keepingCapacity: false)
                         self.uuidArray.removeAll(keepingCapacity: false)
                         
-                        // find related objects
+                        // find relating objects
                         for object in objects! {
                             self.picArray.append(object.value(forKey: "pic") as! PFFile)
                             self.uuidArray.append(object.value(forKey: "uuid") as! String)
@@ -124,7 +123,7 @@ class hashtagsVC: UICollectionViewController {
     }
     
 
-    // scrolled down
+    // scrolling down
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y >= scrollView.contentSize.height / 3 {
             loadMore()
@@ -135,27 +134,27 @@ class hashtagsVC: UICollectionViewController {
     // pagination
     func loadMore() {
         
-        // if posts on the server are more than shown
+        // if posts on the server are more than those shown on screen
         if page <= uuidArray.count {
             
-            // increase page size
+            // increase the size of the page
             page = page + 15
             
-            // STEP 1. Find poss related to hashtags
+            // STEP 1: Find posts related to hashtags
             let hashtagQuery = PFQuery(className: "hashtags")
             hashtagQuery.whereKey("hashtag", equalTo: hashtag.last!)
             hashtagQuery.findObjectsInBackground (block: { (objects, error) -> Void in
                 if error == nil {
                     
-                    // clean up
+                    // cleaning up!
                     self.filterArray.removeAll(keepingCapacity: false)
                     
-                    // store related posts in filterArray
+                    // store relating posts in the filterArray
                     for object in objects! {
                         self.filterArray.append(object.value(forKey: "to") as! String)
                     }
                     
-                    //STEP 2. Find posts that have uuid appended to filterArray
+                    //STEP 2: Find posts that have UUID appended to the filterArray
                     let query = PFQuery(className: "posts")
                     query.whereKey("uuid", containedIn: self.filterArray)
                     query.limit = self.page
@@ -163,17 +162,17 @@ class hashtagsVC: UICollectionViewController {
                     query.findObjectsInBackground(block: { (objects, error) -> Void in
                         if error == nil {
                             
-                            // clean up
+                            // cleaning up!
                             self.picArray.removeAll(keepingCapacity: false)
                             self.uuidArray.removeAll(keepingCapacity: false)
                             
-                            // find related objects
+                            // find relating objects
                             for object in objects! {
                                 self.picArray.append(object.value(forKey: "pic") as! PFFile)
                                 self.uuidArray.append(object.value(forKey: "uuid") as! String)
                             }
                             
-                            // reload
+                            // then reload
                             self.collectionView?.reloadData()
                             
                         } else {
@@ -206,7 +205,7 @@ class hashtagsVC: UICollectionViewController {
     // cell config
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        // define cell
+        // defining cell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! pictureCell
         
         // get picture from the picArray
@@ -220,13 +219,13 @@ class hashtagsVC: UICollectionViewController {
     }
 
     
-    // go post
+    // go to post
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        // send post uuid to "postuuid" variable
+        // send post UUID to the "postuuid" variable
         postuuid.append(uuidArray[indexPath.row])
         
-        // navigate to post view controller
+        // navigate to the post view controller
         let post = self.storyboard?.instantiateViewController(withIdentifier: "postVC") as! postVC
         self.navigationController?.pushViewController(post, animated: true)
     }
