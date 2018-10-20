@@ -21,7 +21,7 @@ class navVC: UINavigationController {
         self.navigationBar.tintColor = .white
         
         // color of background of nav controller
-        self.navigationBar.barTintColor = UIColor(red: 18.0 / 255.0, green: 86.0 / 255.0, blue: 136.0 / 255.0, alpha: 1)
+        self.navigationBar.barTintColor = UIColor(red: 51.0 / 255.0, green: 51.0 / 255.0, blue: 77.0 / 255.0, alpha: 1)
         
         // disable translucent
         self.navigationBar.isTranslucent = false
@@ -32,5 +32,5 @@ class navVC: UINavigationController {
     override var preferredStatusBarStyle : UIStatusBarStyle {
         return UIStatusBarStyle.lightContent
     }
-
+    
 }

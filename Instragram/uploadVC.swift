@@ -46,7 +46,7 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         self.dismiss(animated: true, completion: nil)
     }
     
-
+    
     // UI objects
     @IBOutlet weak var picImg: UIImageView!
     @IBOutlet weak var titleTxt: UITextView!
@@ -172,7 +172,7 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                 self.removeBtn.alpha = 0
             })
             
-        // to unzoom
+            // to unzoom
         } else {
             
             // with animation
@@ -199,8 +199,12 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         
         picImg.frame = CGRect(x: 15, y: 15, width: width / 4.5, height: width / 4.5)
         titleTxt.frame = CGRect(x: picImg.frame.size.width + 25, y: picImg.frame.origin.y, width: width / 1.488, height: picImg.frame.size.height)
-        publishBtn.frame = CGRect(x: 0, y: height / 1.09, width: width, height: width / 8)
+        
         removeBtn.frame = CGRect(x: picImg.frame.origin.x, y: picImg.frame.origin.y + picImg.frame.size.height, width: picImg.frame.size.width, height: 20)
+        
+        publishBtn.frame = CGRect(x: 30, y:  titleTxt.frame.origin.y+150, width:width-60, height: 50)
+        publishBtn.layer.cornerRadius = publishBtn.frame.size.width / 40
+        
     }
     
     

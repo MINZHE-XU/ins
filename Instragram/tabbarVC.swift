@@ -24,7 +24,7 @@ class tabbarVC: UITabBarController {
     // default func
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // color of item
         self.tabBar.tintColor = .white
         
@@ -35,9 +35,10 @@ class tabbarVC: UITabBarController {
         self.tabBar.isTranslucent = false
         
         // custom button
-        let itemWidth = self.view.frame.size.width / 5
+        
         let itemHeight = self.tabBar.frame.size.height
-        tabBarPostButton.frame = CGRect(x: itemWidth * 2, y: self.view.frame.size.height - itemHeight, width: itemWidth - 10, height: itemHeight)
+        let itemWidth = self.view.frame.size.width / 5
+        tabBarPostButton.frame = CGRect(x: ( self.view.frame.size.width - itemHeight)/2, y: self.view.frame.size.height - itemHeight, width: itemHeight, height: itemHeight)
         tabBarPostButton.setBackgroundImage(UIImage(named: "upload.png"), for: UIControlState())
         tabBarPostButton.adjustsImageWhenHighlighted = false
         tabBarPostButton.addTarget(self, action: #selector(tabbarVC.upload(_:)), for: UIControlEvents.touchUpInside)

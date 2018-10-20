@@ -1170,11 +1170,11 @@
             </objects>
             <point key="canvasLocation" x="5358.3999999999996" y="289.65517241379314"/>
         </scene>
-        <!--upload-->
+        <!--+-->
         <scene sceneID="5pz-N6-B7M">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="4V5-2S-k6T" customClass="navVC" customModule="Instragram" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="upload" id="nRE-1Q-RQf"/>
+                    <tabBarItem key="tabBarItem" title="+" id="nRE-1Q-RQf"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="8Ll-W9-5rf">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
