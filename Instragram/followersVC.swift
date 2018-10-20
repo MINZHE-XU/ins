@@ -106,17 +106,17 @@ class followersVC: UITableViewController {
         followQuery.findObjectsInBackground (block: { (objects, error) -> Void in
             if error == nil {
                 
-                // clean up
+                // cleaning up
                 self.followArray.removeAll(keepingCapacity: false)
                 
-                // STEP 2. Hold received data in followArray
+                // STEP 2: Hold received data in followArray
                 // find related objects in "follow" class of Parse
                 for object in objects! {
                     self.followArray.append(object.value(forKey: "following") as! String)
                 }
                 
-                // STEP 3. Basing on followArray information (inside users) show infromation from User class of Parse
-                // find users followeb by user
+                // STEP 3: Basing on followArray information (inside users) show infromation from User class of Parse
+                // find users followed by current user
                 let query = PFQuery(className: "_User")
                 query.whereKey("username", containedIn: self.followArray)
                 query.addDescendingOrder("createdAt")
