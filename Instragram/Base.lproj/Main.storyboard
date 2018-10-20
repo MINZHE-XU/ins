@@ -407,12 +407,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pbg.jpg" id="v12-1f-BVd">
-                                <rect key="frame" x="15" y="79" width="70" height="70"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="AV1-B2-bH3">
-                                <rect key="frame" x="93" y="79" width="215" height="70"/>
+                                <rect key="frame" x="53" y="360" width="215" height="70"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -431,7 +427,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="UPu-qS-Csf">
-                                <rect key="frame" x="15" y="147" width="70" height="19"/>
+                                <rect key="frame" x="102" y="324" width="70" height="19"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <state key="normal" title="remove"/>
@@ -439,6 +435,11 @@
                                     <action selector="removeBtn_clicked:" destination="60U-b4-PAA" eventType="touchUpInside" id="xW3-8O-BRY"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image.png" id="v12-1f-BVd">
+                                <rect key="frame" x="59" y="79" width="226" height="237"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
@@ -452,7 +453,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ooF-MF-iFe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3435.1999999999998" y="870.76461769115451"/>
+            <point key="canvasLocation" x="3434.4000000000001" y="870.31484257871068"/>
         </scene>
         <!--GuestVC-->
         <scene sceneID="EXA-sX-Cv7">
@@ -6386,6 +6387,7 @@ k/AABJPzAAST+AAAAAAAAAQBAAAAAAAAAFYAAAAAAAAAAAAAAAAABJP6A
         <image name="comment.png" width="270" height="270"/>
         <image name="feed.png" width="25" height="25"/>
         <image name="home.png" width="25" height="25"/>
+        <image name="image.png" width="512" height="512"/>
         <image name="logout.png" width="25" height="25"/>
         <image name="news.png" width="25" height="25"/>
         <image name="pbg.jpg" width="200" height="200"/>

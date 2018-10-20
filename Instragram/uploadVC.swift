@@ -46,7 +46,7 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         self.dismiss(animated: true, completion: nil)
     }
     
-    
+
     // UI objects
     @IBOutlet weak var picImg: UIImageView!
     @IBOutlet weak var titleTxt: UITextView!
@@ -67,7 +67,8 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         removeBtn.isHidden = true
         
         // standart UI containt
-        picImg.image = UIImage(named: "pbg.jpg")
+        picImg.image = UIImage(named: "image.png")
+        
         
         // hide kyeboard tap
         let hideTap = UITapGestureRecognizer(target: self, action: #selector(uploadVC.hideKeyboardTap))
@@ -172,7 +173,7 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                 self.removeBtn.alpha = 0
             })
             
-            // to unzoom
+        // to unzoom
         } else {
             
             // with animation
@@ -191,18 +192,19 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     }
     
     
+    
     // alignment
     func alignment() {
         
         let width = self.view.frame.size.width
         let height = self.view.frame.size.height
         
-        picImg.frame = CGRect(x: 15, y: 15, width: width / 4.5, height: width / 4.5)
-        titleTxt.frame = CGRect(x: picImg.frame.size.width + 25, y: picImg.frame.origin.y, width: width / 1.488, height: picImg.frame.size.height)
+        picImg.frame = CGRect(x: 60, y: 15, width: width-120, height: width-120)
+        titleTxt.frame = CGRect(x: 60, y: picImg.frame.origin.y  + picImg.frame.size.height+30, width: picImg.frame.size.width, height: 100)
         
         removeBtn.frame = CGRect(x: picImg.frame.origin.x, y: picImg.frame.origin.y + picImg.frame.size.height, width: picImg.frame.size.width, height: 20)
         
-        publishBtn.frame = CGRect(x: 30, y:  titleTxt.frame.origin.y+150, width:width-60, height: 50)
+        publishBtn.frame = CGRect(x: 60, y:  titleTxt.frame.origin.y + titleTxt.frame.size.height + 30, width:width-120, height: 50)
         publishBtn.layer.cornerRadius = publishBtn.frame.size.width / 40
         
     }
