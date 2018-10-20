@@ -120,7 +120,7 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
             overLayImg.isUserInteractionEnabled = true
             self.imagePicker.cameraOverlayView = overLayImg
             
-            let cameraBtn = UIView(frame: CGRect(x: ScreenWidth/2.0 - 33, y: ScreenHeight - 140 - 44 + 46, width: 66, height: 66))
+            let cameraBtn = UIView(frame: CGRect(x: ScreenWidth/2.0 - 33, y: ScreenHeight - 140 - 44 + 46 + SafeBottomHeight, width: 66, height: 66))
             cameraBtn.tag = 100
             cameraBtn.backgroundColor = UIColor.clear
             overLayImg.addSubview(cameraBtn)
