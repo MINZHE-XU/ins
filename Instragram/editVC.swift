@@ -19,7 +19,7 @@ class editVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     @IBOutlet weak var fullnameTxt: UITextField!
     @IBOutlet weak var usernameTxt: UITextField!
-    @IBOutlet weak var webTxt: UITextField!
+
     @IBOutlet weak var bioTxt: UITextView!
     
     @IBOutlet weak var titleLbl: UILabel!
@@ -131,9 +131,9 @@ class editVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         
         fullnameTxt.frame = CGRect(x: 10, y: avaImg.frame.origin.y, width: width - avaImg.frame.size.width - 30, height: 30)
         usernameTxt.frame = CGRect(x: 10, y: fullnameTxt.frame.origin.y + 40, width: width - avaImg.frame.size.width - 30, height: 30)
-        webTxt.frame = CGRect(x: 10, y: usernameTxt.frame.origin.y + 40, width: width - 20, height: 30)
+
         
-        bioTxt.frame = CGRect(x: 10, y: webTxt.frame.origin.y + 40, width: width - 20, height: 60)
+        bioTxt.frame = CGRect(x: 10, y: usernameTxt.frame.origin.y + 40, width: width - 20, height: 60)
         bioTxt.layer.borderWidth = 1
         bioTxt.layer.borderColor = UIColor(red: 230 / 255.5, green: 230 / 255.5, blue: 230 / 255.5, alpha: 1).cgColor
         bioTxt.layer.cornerRadius = bioTxt.frame.size.width / 50
@@ -160,7 +160,7 @@ class editVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         usernameTxt.text = PFUser.current()?.username
         fullnameTxt.text = PFUser.current()?.object(forKey: "fullname") as? String
         bioTxt.text = PFUser.current()?.object(forKey: "bio") as? String
-        webTxt.text = PFUser.current()?.object(forKey: "web") as? String
+
 
         emailTxt.text = PFUser.current()?.email
         telTxt.text = PFUser.current()?.object(forKey: "tel") as? String
@@ -203,18 +203,14 @@ class editVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             return
         }
         
-        // if incorrect weblink according to regex
-        if !validateWeb(webTxt.text!) {
-            alert("Incorrect web-link", message: "please provide correct website")
-           return
-        }
+  
         
         // save filled in information
         let user = PFUser.current()!
         user.username = usernameTxt.text?.lowercased()
         user.email = emailTxt.text?.lowercased()
         user["fullname"] = fullnameTxt.text?.lowercased()
-        user["web"] = webTxt.text?.lowercased()
+
         user["bio"] = bioTxt.text
         
         // if "tel" is empty, send empty data, else entered data

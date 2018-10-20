@@ -15,7 +15,6 @@ class headerView: UICollectionReusableView {
     // UI objects
     @IBOutlet weak var avaImg: UIImageView!
     @IBOutlet weak var fullnameLbl: UILabel!
-    @IBOutlet weak var webTxt: UITextView!
     @IBOutlet weak var bioLbl: UILabel!
     
     @IBOutlet weak var posts: UILabel!
@@ -50,8 +49,8 @@ class headerView: UICollectionReusableView {
         button.layer.cornerRadius = button.frame.size.width / 50
         
         fullnameLbl.frame = CGRect(x: avaImg.frame.origin.x, y: avaImg.frame.origin.y + avaImg.frame.size.height, width: width - 30, height: 30)
-        webTxt.frame = CGRect(x: avaImg.frame.origin.x - 5, y: fullnameLbl.frame.origin.y + 15, width: width - 30, height: 30)
-        bioLbl.frame = CGRect(x: avaImg.frame.origin.x, y: webTxt.frame.origin.y + 30, width: width - 30, height: 30)
+
+        bioLbl.frame = CGRect(x: avaImg.frame.origin.x, y: fullnameLbl.frame.origin.y + 30, width: width - 30, height: 30)
         
         // round ava
         avaImg.layer.cornerRadius = avaImg.frame.size.width / 2

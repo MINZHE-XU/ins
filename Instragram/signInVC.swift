@@ -28,20 +28,23 @@ class signInVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Pacifico font of label
-        label.font = UIFont(name: "Pacifico", size: 25)
+
         
         // alignment
-        label.frame = CGRect(x: 10, y: 80, width: self.view.frame.size.width - 20, height: 50)
-        usernameTxt.frame = CGRect(x: 10, y: label.frame.origin.y + 70, width: self.view.frame.size.width - 20, height: 30)
-        passwordTxt.frame = CGRect(x: 10, y: usernameTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
-        forgotBtn.frame = CGRect(x: 10, y: passwordTxt.frame.origin.y + 30, width: self.view.frame.size.width - 20, height: 30)
+        label.frame = CGRect(x: 30, y: 80, width: self.view.frame.size.width - 60, height: 50)
+        usernameTxt.frame = CGRect(x: 30, y: label.frame.origin.y + 70, width: self.view.frame.size.width - 60, height: 30)
+        passwordTxt.frame = CGRect(x: 30, y: usernameTxt.frame.origin.y + 40, width: self.view.frame.size.width - 60, height: 30)
+
         
-        signInBtn.frame = CGRect(x: 20, y: forgotBtn.frame.origin.y + 40, width: self.view.frame.size.width / 4, height: 30)
-        signInBtn.layer.cornerRadius = signInBtn.frame.size.width / 20
+        forgotBtn.frame = CGRect(x: 30, y: passwordTxt.frame.origin.y + 40, width: self.view.frame.size.width - 60, height: 30)
         
-        signUpBtn.frame = CGRect(x: self.view.frame.size.width - self.view.frame.size.width / 4 - 20, y: signInBtn.frame.origin.y, width: self.view.frame.size.width / 4, height: 30)
-        signUpBtn.layer.cornerRadius = signUpBtn.frame.size.width / 20
+        
+        signInBtn.frame = CGRect(x: 30, y: forgotBtn.frame.origin.y + 100, width: self.view.frame.size.width - 60, height: 30)
+        signInBtn.layer.cornerRadius = signInBtn.frame.size.width / 40
+        
+        signUpBtn.frame = CGRect(x: 30, y: signInBtn.frame.origin.y + 40, width: self.view.frame.size.width - 60, height: 30)
+        signUpBtn.layer.cornerRadius = signUpBtn.frame.size.width / 40
+
         
         // tap to hide keyboard
         let hideTap = UITapGestureRecognizer(target: self, action: #selector(signInVC.hideKeyboard(_:)))
@@ -51,7 +54,7 @@ class signInVC: UIViewController {
         
         // background
         let bg = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height))
-        bg.image = UIImage(named: "bg.jpg")
+        bg.image = UIImage(named: "background.jpg")
         bg.layer.zPosition = -1
         self.view.addSubview(bg)
     }

@@ -216,8 +216,6 @@ class guestVC: UICollectionViewController {
                     header.fullnameLbl.text = (object.object(forKey: "fullname") as? String)?.uppercased()
                     header.bioLbl.text = object.object(forKey: "bio") as? String
                     header.bioLbl.sizeToFit()
-                    header.webTxt.text = object.object(forKey: "web") as? String
-                    header.webTxt.sizeToFit()
                     let avaFile : PFFile = (object.object(forKey: "ava") as? PFFile)!
                     avaFile.getDataInBackground(block: { (data, error) -> Void in
                         header.avaImg.image = UIImage(data: data!)

@@ -185,8 +185,6 @@ class homeVC: UICollectionViewController {
         // STEP 1. Get user data
         // get users data with connections to collumns of PFuser class
         header.fullnameLbl.text = (PFUser.current()?.object(forKey: "fullname") as? String)?.uppercased()
-        header.webTxt.text = PFUser.current()?.object(forKey: "web") as? String
-        header.webTxt.sizeToFit()
         header.bioLbl.text = PFUser.current()?.object(forKey: "bio") as? String
         header.bioLbl.sizeToFit()
         let avaQuery = PFUser.current()?.object(forKey: "ava") as! PFFile

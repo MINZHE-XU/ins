@@ -22,7 +22,7 @@ class signUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     @IBOutlet weak var emailTxt: UITextField!
     @IBOutlet weak var fullnameTxt: UITextField!
     @IBOutlet weak var bioTxt: UITextField!
-    @IBOutlet weak var webTxt: UITextField!
+
     
     // buttons
     @IBOutlet weak var signUpBtn: UIButton!
@@ -76,9 +76,8 @@ class signUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         emailTxt.frame = CGRect(x: 10, y: repeatPassword.frame.origin.y + 60, width: self.view.frame.size.width - 20, height: 30)
         fullnameTxt.frame = CGRect(x: 10, y: emailTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
         bioTxt.frame = CGRect(x: 10, y: fullnameTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
-        webTxt.frame = CGRect(x: 10, y: bioTxt.frame.origin.y + 40, width: self.view.frame.size.width - 20, height: 30)
-        
-        signUpBtn.frame = CGRect(x: 20, y: webTxt.frame.origin.y + 50, width: self.view.frame.size.width / 4, height: 30)
+ 
+        signUpBtn.frame = CGRect(x: 20, y: bioTxt.frame.origin.y + 50, width: self.view.frame.size.width / 4, height: 30)
         signUpBtn.layer.cornerRadius = signUpBtn.frame.size.width / 20
         
         cancelBtn.frame = CGRect(x: self.view.frame.size.width - self.view.frame.size.width / 4 - 20, y: signUpBtn.frame.origin.y, width: self.view.frame.size.width / 4, height: 30)
@@ -147,7 +146,7 @@ class signUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         self.view.endEditing(true)
         
         // if fields are empty
-        if (usernameTxt.text!.isEmpty || passwordTxt.text!.isEmpty || repeatPassword.text!.isEmpty || emailTxt.text!.isEmpty || fullnameTxt.text!.isEmpty || bioTxt.text!.isEmpty || webTxt.text!.isEmpty) {
+        if (usernameTxt.text!.isEmpty || passwordTxt.text!.isEmpty || repeatPassword.text!.isEmpty || emailTxt.text!.isEmpty || fullnameTxt.text!.isEmpty || bioTxt.text!.isEmpty) {
             
             // alert message
             let alert = UIAlertController(title: "PLEASE", message: "fill all fields", preferredStyle: UIAlertControllerStyle.alert)
@@ -178,7 +177,7 @@ class signUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         user.password = passwordTxt.text
         user["fullname"] = fullnameTxt.text?.lowercased()
         user["bio"] = bioTxt.text
-        user["web"] = webTxt.text?.lowercased()
+
 
         // in Edit Profile it's gonna be assigned
         user["tel"] = ""
