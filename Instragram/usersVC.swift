@@ -28,6 +28,7 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
     var picArray = [PFFile]()
     var uuidArray = [String]()
     var page : Int = 15
+    var isNoFolloing=true
     
 
     // default func
@@ -70,14 +71,20 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
                 self.countArray.removeAll(keepingCapacity: false)
                 var subFollowingList=[String]()
                 var followingQueryList = [PFQuery]()
-
-                for object in objects! {
+                
+                if objects?.count==0{
                     let elementQuery = PFQuery(className:"follow")
-                    elementQuery.whereKey("follower", equalTo: object.value(forKey: "following") as! String )
                     followingQueryList.append(elementQuery)
+                    self.isNoFolloing=true
+                }else{
+                    for object in objects! {
+                        let elementQuery = PFQuery(className:"follow")
+                        elementQuery.whereKey("follower", equalTo: object.value(forKey: "following") as! String )
+                        followingQueryList.append(elementQuery)
+                    }
+                    self.isNoFolloing=false
                 }
                 let listQuery = PFQuery.orQuery(withSubqueries: followingQueryList)
-                
                 //get sub followers
                 listQuery.findObjectsInBackground (block: { (objects2, error2) -> Void in
                     if error2 == nil {
@@ -236,12 +243,18 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
         
         // connect cell's objects with received infromation from server
         cell.usernameLbl.text = usernameArray[indexPath.row]
+        var userTail = ""
+        if self.isNoFolloing{
+            userTail = "user"
+        }else{
+            userTail = "follower"
+        }
         if countArray[indexPath.row]==0 {
              cell.followCountLbl.text = ""
         }else if countArray[indexPath.row]==1{
-            cell.followCountLbl.text = "followed by " + "\(countArray[indexPath.row])" + " following"
+            cell.followCountLbl.text = "followed by " + "\(countArray[indexPath.row])" + " "+userTail
         }else {
-            cell.followCountLbl.text = "followed by " + "\(countArray[indexPath.row])" + " followings"
+            cell.followCountLbl.text = "followed by " + "\(countArray[indexPath.row])"  + " "+userTail + "s"
         }
 
         
