@@ -1317,18 +1317,27 @@
                                                 <action selector="usernameBtn_click:" destination="2S8-NF-Gdj" eventType="touchUpInside" id="LZJ-cA-s8d"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="infoLbl" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jMU-L4-il4">
-                                            <rect key="frame" x="146" y="5" width="135" height="30"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="qqP-nX-kxO">
+                                            <rect key="frame" x="187" y="7" width="88" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
+                                            <state key="normal" title="toUserBtn"/>
+                                            <connections>
+                                                <action selector="toUserBtn_clicked:" destination="2S8-NF-Gdj" eventType="touchUpInside" id="5JP-r2-GtT"/>
+                                            </connections>
+                                        </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="365w" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="J0b-I6-DIr">
                                             <rect key="frame" x="270" y="5" width="42" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="infoLbl" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jMU-L4-il4">
+                                            <rect key="frame" x="136" y="7" width="76" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -1337,6 +1346,7 @@
                                     <outlet property="avaImg" destination="qhF-hb-fnI" id="9MC-Mh-Wg9"/>
                                     <outlet property="dateLbl" destination="J0b-I6-DIr" id="q65-Zo-mXy"/>
                                     <outlet property="infoLbl" destination="jMU-L4-il4" id="x7o-Gz-nWD"/>
+                                    <outlet property="toUserBtn" destination="qqP-nX-kxO" id="a4P-9d-t2b"/>
                                     <outlet property="usernameBtn" destination="8sY-DG-f2a" id="UW0-J5-UWN"/>
                                 </connections>
                             </tableViewCell>
@@ -1350,7 +1360,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IK9-Uz-BQh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3435.1999999999998" y="2638.3808095952027"/>
+            <point key="canvasLocation" x="3434.4000000000001" y="2637.9310344827586"/>
         </scene>
         <!--Notifications-->
         <scene sceneID="Dkb-95-9Us">
