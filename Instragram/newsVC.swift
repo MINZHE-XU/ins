@@ -19,6 +19,7 @@ class newsVC: UITableViewController {
     var dateArray = [Date?]()
     var uuidArray = [String]()
     var ownerArray = [String]()
+    var towardArray = [String]()
     
     
     // defualt func
@@ -35,6 +36,7 @@ class newsVC: UITableViewController {
         // request notifications
         let query = PFQuery(className: "news")
         query.whereKey("to", equalTo: PFUser.current()!.username!)
+        query.whereKey("checked", notEqualTo: "yes")
         query.limit = 30
         query.findObjectsInBackground (block: { (objects, error) -> Void in
             if error == nil {
@@ -46,6 +48,8 @@ class newsVC: UITableViewController {
                 self.dateArray.removeAll(keepingCapacity: false)
                 self.uuidArray.removeAll(keepingCapacity: false)
                 self.ownerArray.removeAll(keepingCapacity: false)
+                self.towardArray.removeAll(keepingCapacity: false)
+                
                 
                 // found related objects
                 for object in objects! {
@@ -55,17 +59,62 @@ class newsVC: UITableViewController {
                     self.dateArray.append(object.createdAt)
                     self.uuidArray.append(object.object(forKey: "uuid") as! String)
                     self.ownerArray.append(object.object(forKey: "owner") as! String)
+                    self.towardArray.append(object.object(forKey: "to") as! String)
                     
                     // save notifications as checked
                     object["checked"] = "yes"
-                    object.saveEventually()
+                    object.saveInBackground()
                 }
                 
-                // reload tableView to show received data
-                self.tableView.reloadData()
             }
         })
         
+        
+        let root = PFUser.current()!.username!
+        let followQuery = PFQuery(className: "follow")
+        followQuery.whereKey("follower", equalTo: root)
+        
+        //usersQuery.limit = 20
+        followQuery.findObjectsInBackground (block: { (objects, error) -> Void in
+            if error == nil {
+                // clean up
+                self.usernameArray.removeAll(keepingCapacity: false)
+                self.avaArray.removeAll(keepingCapacity: false)
+
+                var newsQueryList = [PFQuery]()
+
+                if (objects?.count != 0){
+                    for object in objects! {
+                        let elementQuery = PFQuery(className:"news")
+                        elementQuery.whereKey("by", equalTo: object.value(forKey: "following") as! String )
+                        newsQueryList.append(elementQuery)
+                    }
+                    let listQuery = PFQuery.orQuery(withSubqueries: newsQueryList)
+                    //get sub followers
+                    listQuery.findObjectsInBackground (block: { (objects2, error2) -> Void in
+                        if error2 == nil {
+                            
+                            // found related objects
+                            for object2 in objects2! {
+                                self.usernameArray.append(object2.object(forKey: "by") as! String)
+                                self.avaArray.append(object2.object(forKey: "ava") as! PFFile)
+                                self.typeArray.append(object2.object(forKey: "type") as! String)
+                                self.dateArray.append(object2.createdAt)
+                                self.uuidArray.append(object2.object(forKey: "uuid") as! String)
+                                self.ownerArray.append(object2.object(forKey: "owner") as! String)
+                                self.towardArray.append(object2.object(forKey: "to") as! String)
+                            }
+                            // reload tableView to show received data
+                            self.tableView.reloadData()
+                        }
+                    })
+                }else{
+                    self.tableView.reloadData()
+                }
+
+                
+            } else {print(error!.localizedDescription)}
+        })
     }
 
     
@@ -117,18 +166,32 @@ class newsVC: UITableViewController {
             cell.dateLbl.text = "\(String(describing: difference.weekOfMonth!))w."
         }
         
+        var isYou=(towardArray[indexPath.row]==PFUser.current()!.username!)
+        var callName = towardArray[indexPath.row]
+        if isYou {
+            callName = "you"
+        }
         // define info text
         if typeArray[indexPath.row] == "mention" {
-            cell.infoLbl.text = "has mentioned you."
+            cell.infoLbl.text = "has mentioned " + callName + "."
         }
         if typeArray[indexPath.row] == "comment" {
-            cell.infoLbl.text = "has commented your post."
+            if isYou{
+                cell.infoLbl.text = "has commented your post."
+            }else{
+                cell.infoLbl.text = "has commented "+callName+"'s post."
+            }
         }
         if typeArray[indexPath.row] == "follow" {
-            cell.infoLbl.text = "now following you."
+            cell.infoLbl.text = "now following "+callName+"."
         }
         if typeArray[indexPath.row] == "like" {
-            cell.infoLbl.text = "likes your post."
+            
+            if isYou {
+                cell.infoLbl.text = "likes your post."
+            }else{
+                cell.infoLbl.text = "likes "+callName+"'s post."
+            }
         }
         
         

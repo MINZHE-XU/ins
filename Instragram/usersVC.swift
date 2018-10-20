@@ -58,7 +58,6 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
         
         
         let root = PFUser.current()!.username!
-        
         let followQuery = PFQuery(className: "follow")
         followQuery.whereKey("follower", equalTo: root)
         
