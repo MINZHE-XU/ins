@@ -3,7 +3,7 @@
 
 `Group Members: Wanyun Sun, Minzhe Xu, Jiaheng Zhu, Liangmu Zhu`
 
-Our choice in this project is the Instagram viewer. 
+Our choice in this project is the Instagram Viewer. 
 
 We have referenced the open-source YPImagePicker, according to the MIT License, from https://github.com/Yummypets/YPImagePicker.
 
