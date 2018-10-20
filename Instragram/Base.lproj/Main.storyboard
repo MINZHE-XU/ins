@@ -1134,11 +1134,11 @@
             </objects>
             <point key="canvasLocation" x="4076.8000000000002" y="288.75562218890559"/>
         </scene>
-        <!--home-->
+        <!--Home-->
         <scene sceneID="3qr-Ox-1za">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="oAf-bb-EiF" customClass="navVC" customModule="Instragram" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="home" image="home.png" id="E7O-y6-lUh"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="home.png" id="E7O-y6-lUh"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="1lG-Z0-tGA">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -1190,11 +1190,11 @@
             </objects>
             <point key="canvasLocation" x="2766.4000000000001" y="870.76461769115451"/>
         </scene>
-        <!--feed-->
+        <!--Feed-->
         <scene sceneID="rYq-UO-su5">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0zF-4X-NBk" customClass="navVC" customModule="Instragram" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="feed" image="feed.png" id="IC4-5i-Ggj"/>
+                    <tabBarItem key="tabBarItem" title="Feed" image="feed.png" id="IC4-5i-Ggj"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="zba-6m-XTa">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -1269,11 +1269,11 @@
             </objects>
             <point key="canvasLocation" x="3434.4000000000001" y="2046.9265367316343"/>
         </scene>
-        <!--discover-->
+        <!--Discover-->
         <scene sceneID="wZP-xj-W4G">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="PI3-7y-HFx" customClass="navVC" customModule="Instragram" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="discover" image="users.png" id="6wX-zn-Zoa"/>
+                    <tabBarItem key="tabBarItem" title="Discover" image="users.png" id="6wX-zn-Zoa"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="MGD-rr-jTV">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -1352,11 +1352,11 @@
             </objects>
             <point key="canvasLocation" x="3435.1999999999998" y="2638.3808095952027"/>
         </scene>
-        <!--notifications-->
+        <!--Notifications-->
         <scene sceneID="Dkb-95-9Us">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="7I9-Wp-bye" customClass="navVC" customModule="Instragram" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="notifications" image="news.png" id="G1Q-SB-3SJ"/>
+                    <tabBarItem key="tabBarItem" title="Notifications" image="news.png" id="G1Q-SB-3SJ"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="xok-iW-Hv8">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -6384,7 +6384,7 @@ k34ABJODAASTkQAEk5UABJOcAASToQAEk64ABJOxAASTvgAEk8MABJPLAASTzgAEk9MABJPbAAST3gAE
 k/AABJPzAAST+AAAAAAAAAQBAAAAAAAAAFYAAAAAAAAAAAAAAAAABJP6A
 </mutableData>
         </image>
-        <image name="comment.png" width="30" height="30"/>
+        <image name="comment.png" width="50" height="50"/>
         <image name="feed.png" width="30" height="30"/>
         <image name="home.png" width="30" height="30"/>
         <image name="image.png" width="512" height="512"/>
