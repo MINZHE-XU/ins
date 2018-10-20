@@ -18,6 +18,7 @@ class newsVC: UITableViewController {
     var dateArray = [Date?]()
     var uuidArray = [String]()
     var ownerArray = [String]()
+    var towardUserArray = [String]()
     
     
     // defualt func
@@ -45,6 +46,8 @@ class newsVC: UITableViewController {
                 self.dateArray.removeAll(keepingCapacity: false)
                 self.uuidArray.removeAll(keepingCapacity: false)
                 self.ownerArray.removeAll(keepingCapacity: false)
+                self.towardUserArray.removeAll(keepingCapacity: false)
+                
                 
                 // find relating objects
                 for object in objects! {
@@ -54,17 +57,59 @@ class newsVC: UITableViewController {
                     self.dateArray.append(object.createdAt)
                     self.uuidArray.append(object.object(forKey: "uuid") as! String)
                     self.ownerArray.append(object.object(forKey: "owner") as! String)
+                    self.towardUserArray.append(object.object(forKey: "to") as! String)
                     
                     // saving notifications as checked
                     object["checked"] = "yes"
-                    object.saveEventually()
+                    //object.saveInBackground()
+                    
                 }
-                
-                // reload tableView to show received data
-                self.tableView.reloadData()
+
             }
         })
         
+                //query.whereKey("to", notEqualTo: PFUser.current()!.username!)
+      
+        
+        let root = PFUser.current()!.username!
+        let followQuery = PFQuery(className: "follow")
+        followQuery.whereKey("follower", equalTo: root)
+        //usersQuery.limit = 20
+        followQuery.findObjectsInBackground (block: { (objects, error) -> Void in
+            if error == nil {
+
+                var newsQueryList = [PFQuery]()
+                
+                if objects?.count==0{
+                    let elementQuery = PFQuery(className:"news")
+                    newsQueryList.append(elementQuery)
+                }else{
+                    for object in objects! {
+                        let elementQuery = PFQuery(className:"news")
+                        elementQuery.whereKey("by", equalTo: object.value(forKey: "following") as! String )
+                        newsQueryList.append(elementQuery)
+                    }
+                }
+                let listQuery = PFQuery.orQuery(withSubqueries: newsQueryList)
+                
+                //get sub followers:
+                listQuery.findObjectsInBackground (block: { (objects2, error2) -> Void in
+                    // find relating objects
+                    for object2 in objects2! {
+                        self.usernameArray.append(object2.object(forKey: "by") as! String)
+                        self.avaArray.append(object2.object(forKey: "ava") as! PFFile)
+                        self.typeArray.append(object2.object(forKey: "type") as! String)
+                        self.dateArray.append(object2.createdAt)
+                        self.uuidArray.append(object2.object(forKey: "uuid") as! String)
+                        self.ownerArray.append(object2.object(forKey: "owner") as! String)
+                        self.towardUserArray.append(object2.object(forKey: "to") as! String)
+                    }
+                    
+                    // reload tableView to show received data
+                    self.tableView.reloadData()
+                })
+            } else {print(error!.localizedDescription)}
+        })
     }
 
     
@@ -82,6 +127,8 @@ class newsVC: UITableViewController {
 
         // connect cell objects with received data from server
         cell.usernameBtn.setTitle(usernameArray[indexPath.row], for: UIControlState())
+        cell.toUserBtn.setTitle(towardUserArray[indexPath.row], for: UIControlState())
+        
         avaArray[indexPath.row].getDataInBackground { (data, error) -> Void in
             if error == nil {
                 cell.avaImg.image = UIImage(data: data!)
@@ -120,11 +167,12 @@ class newsVC: UITableViewController {
         if typeArray[indexPath.row] == "mention" {
             cell.infoLbl.text = "has mentioned you."
         }
-        if typeArray[indexPath.row] == "comment" {
-            cell.infoLbl.text = "has commented your post."
-        }
+
         if typeArray[indexPath.row] == "follow" {
             cell.infoLbl.text = "now following you."
+        }
+        if typeArray[indexPath.row] == "comment" {
+            cell.infoLbl.text = "has commented your post."
         }
         if typeArray[indexPath.row] == "like" {
             cell.infoLbl.text = "likes your post."
