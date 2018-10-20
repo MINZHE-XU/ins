@@ -6384,15 +6384,15 @@ k34ABJODAASTkQAEk5UABJOcAASToQAEk64ABJOxAASTvgAEk8MABJPLAASTzgAEk9MABJPbAAST3gAE
 k/AABJPzAAST+AAAAAAAAAQBAAAAAAAAAFYAAAAAAAAAAAAAAAAABJP6A
 </mutableData>
         </image>
-        <image name="comment.png" width="270" height="270"/>
-        <image name="feed.png" width="25" height="25"/>
-        <image name="home.png" width="25" height="25"/>
+        <image name="comment.png" width="30" height="30"/>
+        <image name="feed.png" width="30" height="30"/>
+        <image name="home.png" width="30" height="30"/>
         <image name="image.png" width="512" height="512"/>
-        <image name="logout.png" width="25" height="25"/>
-        <image name="news.png" width="25" height="25"/>
+        <image name="logout.png" width="30" height="30"/>
+        <image name="news.png" width="30" height="30"/>
         <image name="pbg.jpg" width="200" height="200"/>
         <image name="pp.jpg" width="96" height="96"/>
-        <image name="unlike.png" width="270" height="270"/>
-        <image name="users.png" width="25" height="25"/>
+        <image name="unlike.png" width="512" height="512"/>
+        <image name="users.png" width="30" height="30"/>
     </resources>
 </document>
