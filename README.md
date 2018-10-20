@@ -1,4 +1,5 @@
-# COMP90018 Mobile Computing Systems Programming, Smartphone Project, Group 18
+# COMP90018 Mobile Computing Systems Programming 2018 S2
+### Smartphone Project, Group 18
 
 Group Members: Wanyun Sun, Minzhe Xu, Jiaheng Zhu, Liangmu Zhu
 
