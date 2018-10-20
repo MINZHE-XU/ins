@@ -249,6 +249,21 @@ class editVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
                 // send notification to homeVC to be reloaded
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "reload"), object: nil)
                 
+                
+                // update ava in posts
+                let followQuery = PFQuery(className: "posts")
+                followQuery.whereKey("username", equalTo: PFUser.current()!.username!)
+                followQuery.findObjectsInBackground (block: { (objects, error) -> Void in
+                    if error == nil {
+                        for object in objects!{
+                            object["ava"] = avaFile
+                            object.saveInBackground()
+                        }
+                    } else {
+                        print(error!.localizedDescription)
+                    }
+                })
+
             } else {
                 print(error!.localizedDescription)
             }
