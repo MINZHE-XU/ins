@@ -12,6 +12,10 @@ import Parse
 public let ScreenWidth: CGFloat = UIScreen.main.bounds.size.width
 public let ScreenHeight: CGFloat = UIScreen.main.bounds.size.height
 
+public let IphoneX: Bool = ScreenHeight >= 812 ? true : false
+public let SafeBottomHeight: CGFloat = IphoneX ? 34 : 0
+public let cameraXTabHeight: CGFloat = IphoneX ? 44 : 0
+
 func kAdjustLength(x:CGFloat) -> CGFloat {
     let adjustLength = ScreenWidth * CGFloat(x) / 1080.0
     return CGFloat(adjustLength)
@@ -108,7 +112,7 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
             self.imagePicker.sourceType = .camera
             self.imagePicker.allowsEditing = false
             
-            let overLayImg = LineSepView(frame: CGRect(x: 0, y: 44, width: ScreenWidth, height: ScreenHeight-140-44))
+            let overLayImg = LineSepView(frame: CGRect(x: 0, y: 44 + SafeBottomHeight, width: ScreenWidth, height: ScreenHeight-140-44-cameraXTabHeight))
             weak var tmpSelf = self
             overLayImg.cameraClickCallback = {
                 tmpSelf?.imagePicker.cameraOverlayView = nil
