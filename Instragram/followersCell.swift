@@ -11,7 +11,7 @@ import Parse
 
 class followersCell: UITableViewCell {
 
-    // UI objects
+    // Defining UI objects
     @IBOutlet weak var avaImg: UIImageView!
     @IBOutlet weak var usernameLbl: UILabel!
     @IBOutlet weak var followBtn: UIButton!
@@ -36,12 +36,12 @@ class followersCell: UITableViewCell {
     }
     
     
-    // clicked follow / unfollow
+    // clicked to follow or unfollow
     @IBAction func followBtn_click(_ sender: AnyObject) {
         
         let title = followBtn.title(for: UIControlState())
         
-        // to follow
+        // 1. to follow
         if title == "FOLLOW" {
             let object = PFObject(className: "follow")
             object["follower"] = PFUser.current()?.username
@@ -55,7 +55,7 @@ class followersCell: UITableViewCell {
                 }
             })
             
-        // unfollow
+        // 2. to unfollow
         } else {
             let query = PFQuery(className: "follow")
             query.whereKey("follower", equalTo: PFUser.current()!.username!)

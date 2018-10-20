@@ -10,7 +10,7 @@ import UIKit
 
 class pictureCell: UICollectionViewCell {
     
-    // holds post picture
+    // holding the picture posted
     @IBOutlet weak var picImg: UIImageView!
     
     
