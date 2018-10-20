@@ -1,9 +1,9 @@
-//
+//  COMP90018 Mobile Computing Systems Programming
 //  hashtagsVC.swift
-//  Instragram
-//
-//  Created by 许敏哲 on 17/9/18.
-//  Copyright © 2018 许敏哲. All rights reserved.
+//  Instragram viewer Project
+//  the University Of Melbourne
+//  Created by Minzhe Xu on 25/9/18.
+//  Copyright © 2018 Group 18. All rights reserved.
 //
 
 import UIKit

@@ -1,9 +1,9 @@
-//
+//  COMP90018 Mobile Computing Systems Programming
 //  LineSepView.swift
-//  Instragram
-//
-//  Created by ZJH on 2018/10/20.
-//  Copyright © 2018年 Akhmed Idigov. All rights reserved.
+//  Instragram viewer Project
+//  the University Of Melbourne
+//  Created by Jiaheng Zhu on 18/10/18.
+//  Copyright © 2018 Group 18. All rights reserved.
 //
 
 import UIKit
