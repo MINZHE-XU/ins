@@ -239,7 +239,7 @@ class guestVC: UICollectionViewController {
                     header.button.backgroundColor = .lightGray
                 } else {
                     header.button.setTitle("FOLLOWING", for: UIControlState())
-                    header.button.backgroundColor = .green
+                    header.button.backgroundColor = UIColor.init(red: 0.00, green: 0.62, blue: 0.85, alpha: 1.0)
                 }
             } else {
                 print(error?.localizedDescription ?? String())
