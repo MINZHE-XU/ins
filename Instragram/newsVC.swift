@@ -163,25 +163,46 @@ class newsVC: UITableViewController {
             cell.dateLbl.text = "\(String(describing: difference.weekOfMonth!))w."
         }
         
-        // defining info text
-        if typeArray[indexPath.row] == "mention" {
-            cell.infoLbl.text = "has mentioned you."
+        if(towardUserArray[indexPath.row] == PFUser.current()!.username!){
+            // if is user himself
+            cell.infoLbl2.text = ""
+            if typeArray[indexPath.row] == "mention" {
+                cell.infoLbl.text = "has mentioned you."
+                
+            }
+            if typeArray[indexPath.row] == "follow" {
+                cell.infoLbl.text = "now following you."
+            }
+            if typeArray[indexPath.row] == "comment" {
+                cell.infoLbl.text = "has commented your post."
+            }
+            if typeArray[indexPath.row] == "like" {
+                cell.infoLbl.text = "likes your post."
+            }
+        }else{
+            // if is other user
+            // if is user himself
+            if typeArray[indexPath.row] == "mention" {
+                cell.infoLbl.text = "has mentioned "
+                cell.infoLbl2.text = ""
+            }
+            if typeArray[indexPath.row] == "follow" {
+                cell.infoLbl.text = "now following "
+                cell.infoLbl2.text = ""
+            }
+            if typeArray[indexPath.row] == "comment" {
+                cell.infoLbl.text = "has commented "
+                cell.infoLbl2.text = "'s post."
+            }
+            if typeArray[indexPath.row] == "like" {
+                cell.infoLbl.text = "likes "
+                cell.infoLbl2.text = "'s post."
+            }
         }
 
-        if typeArray[indexPath.row] == "follow" {
-            cell.infoLbl.text = "now following you."
-        }
-        if typeArray[indexPath.row] == "comment" {
-            cell.infoLbl.text = "has commented your post."
-        }
-        if typeArray[indexPath.row] == "like" {
-            cell.infoLbl.text = "likes your post."
-        }
-        
-        
         // assign index of the button
         cell.usernameBtn.layer.setValue(indexPath, forKey: "index")
-
+        cell.toUserBtn.layer.setValue(indexPath, forKey: "index")
         return cell
     }
 
@@ -206,6 +227,25 @@ class newsVC: UITableViewController {
         }
     }
     
+    // click the to user button
+    @IBAction func toUserBtn_clicked(_ sender: AnyObject) {
+        
+        // call index of button
+        let i = sender.layer.value(forKey: "index") as! IndexPath
+        
+        // call cell to call further cell data
+        let cell = tableView.cellForRow(at: i) as! newsCell
+        
+        // if user tapped on itself, go home; else go to guest page
+        if cell.toUserBtn.titleLabel?.text == PFUser.current()?.username {
+            let home = self.storyboard?.instantiateViewController(withIdentifier: "homeVC") as! homeVC
+            self.navigationController?.pushViewController(home, animated: true)
+        } else {
+            guestname.append(cell.toUserBtn.titleLabel!.text!)
+            let guest = self.storyboard?.instantiateViewController(withIdentifier: "guestVC") as! guestVC
+            self.navigationController?.pushViewController(guest, animated: true)
+        }
+    }
     
     // click cell
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -213,10 +253,10 @@ class newsVC: UITableViewController {
         // call cell for calling cell data
         let cell = tableView.cellForRow(at: indexPath) as! newsCell
         
+        let typed=cell.infoLbl.text!
+
         
-        // going to @mentioned comments
-        if cell.infoLbl.text == "has mentioned you." {
-            
+        if typed.contains("mentioned") {
             // send relating data to gloval variables
             commentuuid.append(uuidArray[indexPath.row])
             commentowner.append(ownerArray[indexPath.row])
@@ -225,10 +265,11 @@ class newsVC: UITableViewController {
             let comment = self.storyboard?.instantiateViewController(withIdentifier: "commentVC") as! commentVC
             self.navigationController?.pushViewController(comment, animated: true)
         }
+
         
         
         // go to own comments
-        if cell.infoLbl.text == "has commented your post." {
+        if typed.contains("commented") {
             
             // send related data to gloval variable
             commentuuid.append(uuidArray[indexPath.row])
@@ -240,8 +281,9 @@ class newsVC: UITableViewController {
         }
         
         
+        
         // going to user who followed the current user
-        if cell.infoLbl.text == "now following you." {
+        if typed.contains("following") {
             
             // take theguestname
             guestname.append(cell.usernameBtn.titleLabel!.text!)
@@ -253,7 +295,7 @@ class newsVC: UITableViewController {
         
         
         // going to post liked
-        if cell.infoLbl.text == "likes your post." {
+        if typed.contains("likes") {
             
             // take post UUID
             postuuid.append(uuidArray[indexPath.row])

@@ -1340,12 +1340,20 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="infoLbl2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4Be-i1-FE4">
+                                            <rect key="frame" x="263" y="13" width="76" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="avaImg" destination="qhF-hb-fnI" id="9MC-Mh-Wg9"/>
                                     <outlet property="dateLbl" destination="J0b-I6-DIr" id="q65-Zo-mXy"/>
                                     <outlet property="infoLbl" destination="jMU-L4-il4" id="x7o-Gz-nWD"/>
+                                    <outlet property="infoLbl2" destination="4Be-i1-FE4" id="4Wt-1Y-a4v"/>
                                     <outlet property="toUserBtn" destination="qqP-nX-kxO" id="a4P-9d-t2b"/>
                                     <outlet property="usernameBtn" destination="8sY-DG-f2a" id="UW0-J5-UWN"/>
                                 </connections>
