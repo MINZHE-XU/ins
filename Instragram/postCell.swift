@@ -107,7 +107,7 @@ class postCell: UITableViewCell {
             options: [], metrics: nil, views: ["pic":picImg]))
         
         self.contentView.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "H:|-15-[comment(50)]-15-[moreBtn(50)]-15-[like(50)]-10-[likes(10)]-10-[likepeople]-15-|",
+            withVisualFormat: "H:|-15-[comment(50)]-15-[like(50)]-10-[likes(10)]-10-[likepeople]-15-[moreBtn(50)]-15-|",
             options: [], metrics: nil, views: ["like":likeBtn, "likes":likeLbl,"likepeople":likepeopleLbl,"moreBtn":moreBtn,"comment":commentBtn]))
 
         self.contentView.addConstraints(NSLayoutConstraint.constraints(
