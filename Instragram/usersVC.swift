@@ -12,30 +12,28 @@ import Parse
 
 class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    // declare search bar
+    // declaring the search bar
     var searchBar = UISearchBar()
     
-    // tableView arrays to hold information from server
+    // defining tableView arrays to hold information from server
     var usernameArray = [String]()
-    
     var avaArray = [PFFile]()
     var countArray = [Int]()
     
-    // collectionView UI
+    // declaring the collectionView UI
     var collectionView : UICollectionView!
     
-    // collectionView arrays to hold infromation from server
+    // collectionView arrays to hold server information
     var picArray = [PFFile]()
     var uuidArray = [String]()
     var page : Int = 15
     var isNoFolloing=true
-    
 
     // default func
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // implement search bar
+        // implement a search bar
         searchBar.delegate = self
         searchBar.sizeToFit()
         searchBar.tintColor = UIColor.groupTableViewBackground
@@ -45,15 +43,16 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
         
         // call functions
         loadUsers()
-        // call collectionView
+        
+        //call collectionView
         //collectionViewLaunch()
         //collectionView.isHidden = true
     }
     
     
     
-    // SEARCHING CODE
-    // load users function
+    // SEARCHING part
+    // loadusers function
     func loadUsers() {
         
         
@@ -65,7 +64,8 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
         //usersQuery.limit = 20
         followQuery.findObjectsInBackground (block: { (objects, error) -> Void in
             if error == nil {
-                // clean up
+                
+                // cleaning up
                 self.usernameArray.removeAll(keepingCapacity: false)
                 self.avaArray.removeAll(keepingCapacity: false)
                 self.countArray.removeAll(keepingCapacity: false)
@@ -85,7 +85,8 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
                     self.isNoFolloing=false
                 }
                 let listQuery = PFQuery.orQuery(withSubqueries: followingQueryList)
-                //get sub followers
+                
+                //get sub followers:
                 listQuery.findObjectsInBackground (block: { (objects2, error2) -> Void in
                     if error2 == nil {
                         var userQueryList = [PFQuery]()
@@ -102,7 +103,7 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
                         
                         let listUserQuery = PFQuery.orQuery(withSubqueries: userQueryList)
                         
-                        // get sub follower informatin
+                        // get sub follower information
                         listUserQuery.findObjectsInBackground (block: { (objects3, error3) -> Void in
                             if error3 == nil {
                             
@@ -130,7 +131,7 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
     
 
     
-    // search updated
+    // updated search
     func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         
         // find by username
@@ -139,7 +140,8 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
         usernameQuery.findObjectsInBackground (block: { (objects, error) -> Void in
             if error == nil {
                 
-                // if no objects are found according to entered text in usernaem colomn, find by fullname
+                // if no objects are found according to entered text in username colomn,
+                // find them by fullname
                 if objects!.isEmpty {
 
                     let fullnameQuery = PFUser.query()
@@ -147,12 +149,12 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
                     fullnameQuery?.findObjectsInBackground(block: { (objects, error) -> Void in
                         if error == nil {
                             
-                            // clean up
+                            // cleaning up!
                             self.usernameArray.removeAll(keepingCapacity: false)
                             self.avaArray.removeAll(keepingCapacity: false)
                             self.countArray.removeAll(keepingCapacity: false)
                             
-                            // found related objects
+                            // find relating objects
                             for object in objects! {
                                 self.usernameArray.append(object.object(forKey: "username") as! String)
                                 self.avaArray.append(object.object(forKey: "ava") as! PFFile)
@@ -160,26 +162,26 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
                                 
                             }
                             
-                            // reload
+                            // reload:
                             self.tableView.reloadData()
                             
                         }
                     })
                 }
                 
-                // clean up
+                // cleaning up!
                 self.usernameArray.removeAll(keepingCapacity: false)
                 self.avaArray.removeAll(keepingCapacity: false)
                 self.countArray.removeAll(keepingCapacity: false)
                 
-                // found related objects
+                // find relating objects
                 for object in objects! {
                     self.usernameArray.append(object.object(forKey: "username") as! String)
                     self.avaArray.append(object.object(forKey: "ava") as! PFFile)
                     self.countArray.append(0)
                 }
                 
-                // reload
+                // reload:
                 self.tableView.reloadData()
                 
             }
@@ -188,40 +190,40 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
         return true
     }
     
-    
-    // tapped on the searchBar
+    // tap on the searchBar
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         
-        // hide collectionView when started search
+        // hide collectionView when starting search
         //collectionView.isHidden = true
         
-        // show cancel button
+        // show the cancel button
         searchBar.showsCancelButton = true
     }
     
     
-    // clicked cancel button
+    // clicked the cancel button
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         
-        // unhide collectionView when tapped cancel button
+        //unhide collectionView when tapped cancel button
         //collectionView.isHidden = false
         
-        // dismiss keyboard
+        // dismiss phone keyboard
         searchBar.resignFirstResponder()
         
-        // hide cancel button
+        // hide the cancel button
         searchBar.showsCancelButton = false
         
-        // reset text
+        // text reset
         searchBar.text = ""
         
-        // reset shown users
+        // reset users shown
         loadUsers()
     }
     
     
     
-    // TABLEVIEW CODE
+    // TABLEVIEW part
+    
     // cell numb
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return usernameArray.count
@@ -235,13 +237,13 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
     // cell config
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        // define cell
+        // defining cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! followersCell
 
         // hide follow button
         cell.followBtn.isHidden = true
         
-        // connect cell's objects with received infromation from server
+        // connect the cell's objects with received infromation from the server
         cell.usernameLbl.text = usernameArray[indexPath.row]
         var userTail = ""
         if self.isNoFolloing{
@@ -269,13 +271,13 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
     }
 
     
-    // selected tableView cell - selected user
+    // select tableView cell - then select user
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        // calling cell again to call cell data
+        // calling the cell again for cell data
         let cell = tableView.cellForRow(at: indexPath) as! followersCell
         
-        // if user tapped on his name go home, else go guest
+        // if a user taps on its name, go home; else go to guest
         if cell.usernameLbl.text! == PFUser.current()?.username {
             let home = self.storyboard?.instantiateViewController(withIdentifier: "homeVC") as! homeVC
             self.navigationController?.pushViewController(home, animated: true)
@@ -288,22 +290,22 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
     
     /**
     
-    // COLLECTION VIEW CODE
+    // COLLECTION VIEW part
     func collectionViewLaunch() {
      
-        // layout of collectionView
+        // the layout of collectionView
         let layout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         
         // item size
         layout.itemSize = CGSize(width: self.view.frame.size.width / 3, height: self.view.frame.size.width / 3)
         
-        // direction of scrolling
+        // scrolling direction
         layout.scrollDirection = UICollectionViewScrollDirection.vertical
         
-        // define frame of collectionView
+        // defining a frame of collectionView
         let frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height - self.tabBarController!.tabBar.frame.size.height - self.navigationController!.navigationBar.frame.size.height - 20)
         
-        // declare collectionView
+        // declaring collectionView
         collectionView = UICollectionView(frame: frame, collectionViewLayout: layout)
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -311,10 +313,10 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
         collectionView.backgroundColor = .white
         self.view.addSubview(collectionView)
         
-        // define cell for collectionView
+        // defining a cell for collectionView
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
         
-        // call function to load posts
+        // call functions to load posts
         loadPosts()
     }
     */
@@ -337,10 +339,10 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
     // cell config
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        // define cell
+        // defining a cell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
         
-        // create picture imageView in cell to show loaded pictures
+        // creating picture imageView in cell to show loaded pictures
         let picImg = UIImageView(frame: CGRect(x: 0, y: 0, width: cell.frame.size.width, height: cell.frame.size.height))
         cell.addSubview(picImg)
         
@@ -356,7 +358,7 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
         return cell
     }
     
-    // cell's selected
+    // when a cell is selected
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         // take relevant unique id of post to load post in postVC
@@ -367,18 +369,18 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
         self.navigationController?.pushViewController(post, animated: true)
     }
     
-    // load posts
+    // loading posts
     func loadPosts() {
         let query = PFQuery(className: "posts")
         query.limit = page
         query.findObjectsInBackground { (objects, error) -> Void in
             if error == nil {
                 
-                // clean up
+                // cleaning up!
                 self.picArray.removeAll(keepingCapacity: false)
                 self.uuidArray.removeAll(keepingCapacity: false)
                 
-                // found related objects
+                // find relating objects
                 for object in objects! {
                     self.picArray.append(object.object(forKey: "pic") as! PFFile)
                     self.uuidArray.append(object.object(forKey: "uuid") as! String)
@@ -393,7 +395,7 @@ class usersVC: UITableViewController, UISearchBarDelegate, UICollectionViewDeleg
         }
     }
     
-    // scrolled down
+    // scrolling down
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         // scroll down for paging
         if scrollView.contentOffset.y >= scrollView.contentSize.height / 6 {

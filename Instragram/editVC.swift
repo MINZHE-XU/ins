@@ -9,10 +9,9 @@
 import UIKit
 import Parse
 
-
 class editVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    // UI objects
+    // Declaring UI objects
     @IBOutlet weak var scrollView: UIScrollView!
     
     @IBOutlet weak var avaImg: UIImageView!
@@ -27,11 +26,11 @@ class editVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     @IBOutlet weak var emailTxt: UITextField!
     @IBOutlet weak var telTxt: UITextField!
     @IBOutlet weak var genderTxt: UITextField!
-        // pickerView & pickerData
+    // pickerView and pickerData:
         var genderPicker : UIPickerView!
         let genders = ["male","female"]
     
-    // value to hold keyboard frmae size
+    // value to hold the phone keyboard frmae size
     var keyboard = CGRect()
     
     
@@ -39,7 +38,7 @@ class editVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // create picker
+        // creating gender picker
         genderPicker = UIPickerView()
         genderPicker.dataSource = self
         genderPicker.delegate = self
@@ -47,60 +46,60 @@ class editVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         genderPicker.showsSelectionIndicator = true
         genderTxt.inputView = genderPicker
         
-        // check notifications of keyboard - shown or not
+        // check notifications of phone keyboard - shown or not
         NotificationCenter.default.addObserver(self, selector: #selector(editVC.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(editVC.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
-        // tap to hide keyboard
+        // tap to hide phone keyboard
         let hideTap = UITapGestureRecognizer(target: self, action: #selector(editVC.hideKeyboard))
         hideTap.numberOfTapsRequired = 1
         self.view.isUserInteractionEnabled = true
         self.view.addGestureRecognizer(hideTap)
         
-        // tap to choose image
+        // tap to choose an image
         let avaTap = UITapGestureRecognizer(target: self, action: #selector(editVC.loadImg(_:)))
         avaTap.numberOfTapsRequired = 1
         avaImg.isUserInteractionEnabled = true
         avaImg.addGestureRecognizer(avaTap)
         
-        // call alignment function
+        // call the alignment function
         alignment()
         
-        // call information function
+        // call the information function
         information()
     }
     
     
-    // func to hide keyboard
+    // func to hide the phone keyboard
     func hideKeyboard() {
         self.view.endEditing(true)
     }
     
     
-    // func when keyboard is shown
+    // func when the phone keyboard is shown
     func keyboardWillShow(_ notification: Notification) {
     
-        // define keyboard frame size
+        // defining frame size of the phone keyboard
         keyboard = ((notification.userInfo?[UIKeyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue)!
         
-        // move up with animation
+        // movin' up animation
         UIView.animate(withDuration: 0.4, animations: { () -> Void in
             self.scrollView.contentSize.height = self.view.frame.size.height + self.keyboard.height / 2
         }) 
     }
     
     
-    // func when keyboard is hidden
+    // func when the phone keyboard is hidden
     func keyboardWillHide(_ notification: Notification) {
         
-        // move down with animation
+        // movin' down animation
         UIView.animate(withDuration: 0.4, animations: { () -> Void in
             self.scrollView.contentSize.height = 0
         }) 
     }
     
     
-    // func to call UIImagePickerController
+    // func to call the UIImagePickerController
     func loadImg (_ recognizer : UITapGestureRecognizer) {
         let picker = UIImagePickerController()
         picker.delegate = self
@@ -110,12 +109,11 @@ class editVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     
-    // method to finilize our actions with UIImagePickerController
+    // method to finalize our actions with UIImagePickerController
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         avaImg.image = info[UIImagePickerControllerEditedImage] as? UIImage
         self.dismiss(animated: true, completion: nil)
     }
-    
     
     // alignment function
     func alignment() {
@@ -132,7 +130,6 @@ class editVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         fullnameTxt.frame = CGRect(x: 10, y: avaImg.frame.origin.y, width: width - avaImg.frame.size.width - 30, height: 30)
         usernameTxt.frame = CGRect(x: 10, y: fullnameTxt.frame.origin.y + 40, width: width - avaImg.frame.size.width - 30, height: 30)
 
-        
         bioTxt.frame = CGRect(x: 10, y: usernameTxt.frame.origin.y + 40, width: width - 20, height: 60)
         bioTxt.layer.borderWidth = 1
         bioTxt.layer.borderColor = UIColor(red: 230 / 255.5, green: 230 / 255.5, blue: 230 / 255.5, alpha: 1).cgColor
@@ -150,17 +147,16 @@ class editVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     // user information function
     func information() {
         
-        // receive profile picture
+        // receiving the profile picture
         let ava = PFUser.current()?.object(forKey: "ava") as! PFFile
         ava.getDataInBackground { (data, error) -> Void in
             self.avaImg.image = UIImage(data: data!)
         }
         
-        // receive text information
+        // receiving text information
         usernameTxt.text = PFUser.current()?.username
         fullnameTxt.text = PFUser.current()?.object(forKey: "fullname") as? String
         bioTxt.text = PFUser.current()?.object(forKey: "bio") as? String
-
 
         emailTxt.text = PFUser.current()?.email
         telTxt.text = PFUser.current()?.object(forKey: "tel") as? String
@@ -168,7 +164,7 @@ class editVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     
-    // regex restrictions for email textfield
+    // regex restrictions for email text field
     func validateEmail (_ email : String) -> Bool {
         let regex = "[A-Z0-9a-z._%+-]{4}+@[A-Za-z0-9.-]+\\.[A-Za-z]{2}"
         let range = email.range(of: regex, options: .regularExpression)
@@ -176,7 +172,7 @@ class editVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         return result
     }
     
-    // regex restrictions for web textfield
+    // regex restrictions for web text field
     func validateWeb (_ web : String) -> Bool {
         let regex = "www.+[A-Z0-9a-z._%+-]+.[A-Za-z]{2}"
         let range = web.range(of: regex, options: .regularExpression)
@@ -194,10 +190,10 @@ class editVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     
-    // clicked save button
+    // click save button:
     @IBAction func save_clicked(_ sender: AnyObject) {
         
-        // if incorrect email according to regex
+        // if incorrect email according to regex,
         if !validateEmail(emailTxt.text!) {
             alert("Incorrect email", message: "please provide correct email address")
             return
@@ -205,7 +201,7 @@ class editVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         
   
         
-        // save filled in information
+        // save filled information
         let user = PFUser.current()!
         user.username = usernameTxt.text?.lowercased()
         user.email = emailTxt.text?.lowercased()
@@ -213,36 +209,36 @@ class editVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
 
         user["bio"] = bioTxt.text
         
-        // if "tel" is empty, send empty data, else entered data
+        // if "tel" is empty, send empty data, else send entered data
         if telTxt.text!.isEmpty {
             user["tel"] = ""
         } else {
             user["tel"] = telTxt.text
         }
         
-        // if "gender" is empty, send empty data, else entered data
+        // if "gender" is empty, send empty data, else send entered data
         if genderTxt.text!.isEmpty {
             user["gender"] = ""
         } else {
             user["gender"] = genderTxt.text
         }
         
-        // send profile picture
+        // send the profile picture
         let avaData = UIImageJPEGRepresentation(avaImg.image!, 0.5)
         let avaFile = PFFile(name: "ava.jpg", data: avaData!)
         user["ava"] = avaFile
         
-        // send filled information to server
+        // send filled information to the server
         user.saveInBackground (block: { (success, error) -> Void in
             if success{
                 
-                // hide keyboard
+                // hide the phone keyboard
                 self.view.endEditing(true)
                 
                 // dismiss editVC
                 self.dismiss(animated: true, completion: nil)
                 
-                // send notification to homeVC to be reloaded
+                // send notification to homeVC for reloading
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "reload"), object: nil)
                 
                 
@@ -268,7 +264,7 @@ class editVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     
-    // clicked cancel button
+    // click cancel button
     @IBAction func cancel_clicked(_ sender: AnyObject) {
         self.view.endEditing(true)
         self.dismiss(animated: true, completion: nil)
@@ -277,22 +273,22 @@ class editVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     
     // PICKER VIEW METHODS
-    // picker comp numb
+    // picker comp numb:
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
-    // picker text numb
+    // picker text numb:
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return genders.count
     }
     
-    // picker text config
+    // picker text config:
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return genders[row]
     }
     
-    // picker did selected some value from it
+    // picker selects some value from it:
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         genderTxt.text = genders[row]
         self.view.endEditing(true)

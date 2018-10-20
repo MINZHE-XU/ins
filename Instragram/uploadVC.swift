@@ -28,14 +28,14 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         
         self.picImg.image = image
         
-        // enable publish btn
+        // enable the publish button
         publishBtn.isEnabled = true
         publishBtn.backgroundColor = UIColor(red: 52.0/255.0, green: 169.0/255.0, blue: 255.0/255.0, alpha: 1)
         
-        // unhide remove button
+        // unhide the remove button
         removeBtn.isHidden = false
         
-        // implement second tap for zooming image
+        // implement the second tap for image zooming
         let zoomTap = UITapGestureRecognizer(target: self, action: #selector(uploadVC.zoomImg))
         zoomTap.numberOfTapsRequired = 1
         picImg.isUserInteractionEnabled = true
@@ -47,7 +47,7 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     }
     
 
-    // UI objects
+    // Defining UI objects
     @IBOutlet weak var picImg: UIImageView!
     @IBOutlet weak var titleTxt: UITextView!
     @IBOutlet weak var publishBtn: UIButton!
@@ -59,24 +59,24 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // disable publish btn
+        // disable publish button
         publishBtn.isEnabled = false
         publishBtn.backgroundColor = .lightGray
         
-        // hide remove button
+        // hiding remove button
         removeBtn.isHidden = true
         
-        // standart UI containt
+        // standard UI content
         picImg.image = UIImage(named: "image.png")
         
         
-        // hide kyeboard tap
+        // hide kyeboard tapping
         let hideTap = UITapGestureRecognizer(target: self, action: #selector(uploadVC.hideKeyboardTap))
         hideTap.numberOfTapsRequired = 1
         self.view.isUserInteractionEnabled = true
         self.view.addGestureRecognizer(hideTap)
         
-        // select image tap
+        // select image tapping
         let picTap = UITapGestureRecognizer(target: self, action: #selector(uploadVC.selectImg))
         picTap.numberOfTapsRequired = 1
         picImg.isUserInteractionEnabled = true
@@ -91,13 +91,13 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     }
     
     
-    // hide kyeboard function
+    // hide the phone kyeboard function
     @objc func hideKeyboardTap() {
         self.view.endEditing(true)
     }
     
     
-    // func to cal pickerViewController
+    // func to call pickerViewController
     @objc func selectImg() {
         let actionSheet = UIAlertController(title: "Choose photo from", message: "", preferredStyle: .actionSheet)
         let libraryAction = UIAlertAction(title: "Photo Library", style: .default) { (action) in
@@ -149,19 +149,19 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         self.present(dsPhotoEditorViewController!, animated: true, completion: nil)
     }
     
-    // zooming in / out function
+    // zooming in and out function
     @objc func zoomImg() {
         
-        // define frame of zoomed image
+        // defining the frame of zoomed image
         let zoomed = CGRect(x: 0, y: self.view.center.y - self.view.center.x - self.tabBarController!.tabBar.frame.size.height * 1.5, width: self.view.frame.size.width, height: self.view.frame.size.width)
         
-        // frame of unzoomed (small) image
+        // frame of an unzoomed (small) image
         let unzoomed = CGRect(x: 15, y: 15, width: self.view.frame.size.width / 4.5, height: self.view.frame.size.width / 4.5)
         
-        // if picture is unzoomed, zoom it
+        // if a picture is unzoomed, zoom it...
         if picImg.frame == unzoomed {
             
-            // with animation
+            // ...with animation
             UIView.animate(withDuration: 0.3, animations: { () -> Void in
                 // resize image frame
                 self.picImg.frame = zoomed
@@ -173,12 +173,12 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                 self.removeBtn.alpha = 0
             })
             
-        // to unzoom
+        // otherwise, unzoom...
         } else {
             
-            // with animation
+            // ...with animation
             UIView.animate(withDuration: 0.3, animations: { () -> Void in
-                // resize image frame
+                // resizing image frame
                 self.picImg.frame = unzoomed
                 
                 // unhide objects from background
@@ -210,13 +210,13 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     }
     
     
-    // clicked publish button
+    // clicking publish button
     @IBAction func publishBtn_clicked(_ sender: AnyObject) {
         
-        // dissmiss keyboard
+        // dissmiss the phone keyboard
         self.view.endEditing(true)
         
-        // send data to server to "posts" class in Parse
+        // sending data to the server to "posts" class in Parse
         let object = PFObject(className: "posts")
         object["username"] = PFUser.current()!.username
         object["ava"] = PFUser.current()!.value(forKey: "ava") as! PFFile
@@ -230,22 +230,22 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
             object["title"] = titleTxt.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         }
         
-        // send pic to server after converting to FILE and comprassion
+        // send a picture to the server after converting to FILE and comprassion
         let imageData = UIImageJPEGRepresentation(picImg.image!, 0.5)
         let imageFile = PFFile(name: "post.jpg", data: imageData!)
         object["pic"] = imageFile
         
         
-        // send #hashtag to server
+        // send #hashtag to the erver
         let words:[String] = titleTxt.text!.components(separatedBy: CharacterSet.whitespacesAndNewlines)
         
-        // define taged word
+        // defining the tagged word
         for var word in words {
             
-            // save #hasthag in server
+            // save #hasthag in the server
             if word.hasPrefix("#") {
                 
-                // cut symbold
+                // cutting the symbol
                 word = word.trimmingCharacters(in: CharacterSet.punctuationCharacters)
                 word = word.trimmingCharacters(in: CharacterSet.symbols)
                 
@@ -265,17 +265,17 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         }
         
         
-        // finally save information
+        // finally, save the information
         object.saveInBackground (block: { (success, error) -> Void in
             if error == nil {
                 
-                // send notification wiht name "uploaded"
+                // sending the notification with name "uploaded"
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "uploaded"), object: nil)
                 
                 // switch to another ViewController at 0 index of tabbar
                 self.tabBarController!.selectedIndex = 0
                 
-                // reset everything
+                // reset all
                 self.viewDidLoad()
                 self.titleTxt.text = ""
             }
@@ -284,7 +284,7 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     }
     
     
-    // clicked remove button
+    // clicking remove button
     @IBAction func removeBtn_clicked(_ sender: AnyObject) {
         self.viewDidLoad()
     }

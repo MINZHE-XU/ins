@@ -9,10 +9,9 @@
 import UIKit
 import Parse
 
-
 class newsVC: UITableViewController {
     
-    // arrays to hold data from server
+    // Defining arrays to hold data from server
     var usernameArray = [String]()
     var avaArray = [PFFile]()
     var typeArray = [String]()
@@ -29,17 +28,17 @@ class newsVC: UITableViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 60
         
-        // title at the top
+        // Setting the title on top
         self.navigationItem.title = "NOTIFICATIONS"
         
-        // request notifications
+        // requesting notifications:
         let query = PFQuery(className: "news")
         query.whereKey("to", equalTo: PFUser.current()!.username!)
         query.limit = 30
         query.findObjectsInBackground (block: { (objects, error) -> Void in
             if error == nil {
                 
-                // clean up
+                // cleaning up!
                 self.usernameArray.removeAll(keepingCapacity: false)
                 self.avaArray.removeAll(keepingCapacity: false)
                 self.typeArray.removeAll(keepingCapacity: false)
@@ -47,7 +46,7 @@ class newsVC: UITableViewController {
                 self.uuidArray.removeAll(keepingCapacity: false)
                 self.ownerArray.removeAll(keepingCapacity: false)
                 
-                // found related objects
+                // find relating objects
                 for object in objects! {
                     self.usernameArray.append(object.object(forKey: "by") as! String)
                     self.avaArray.append(object.object(forKey: "ava") as! PFFile)
@@ -56,7 +55,7 @@ class newsVC: UITableViewController {
                     self.uuidArray.append(object.object(forKey: "uuid") as! String)
                     self.ownerArray.append(object.object(forKey: "owner") as! String)
                     
-                    // save notifications as checked
+                    // saving notifications as checked
                     object["checked"] = "yes"
                     object.saveEventually()
                 }
@@ -78,7 +77,7 @@ class newsVC: UITableViewController {
     // cell config
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        // declare cell
+        // declaring cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! newsCell
 
         // connect cell objects with received data from server
@@ -91,13 +90,13 @@ class newsVC: UITableViewController {
             }
         }
         
-        // calculate post date
+        // calculating post date
         let from = dateArray[indexPath.row]
         let now = Date()
         let components : NSCalendar.Unit = [.second, .minute, .hour, .day, .weekOfMonth]
         let difference = (Calendar.current as NSCalendar).components(components, from: from!, to: now, options: [])
         
-        // logic what to show: seconds, minuts, hours, days or weeks
+        // time to show: seconds, minutes, hours, days or weeks
         if difference.second! <= 0 {
             cell.dateLbl.text = "now"
         }
@@ -117,7 +116,7 @@ class newsVC: UITableViewController {
             cell.dateLbl.text = "\(String(describing: difference.weekOfMonth!))w."
         }
         
-        // define info text
+        // defining info text
         if typeArray[indexPath.row] == "mention" {
             cell.infoLbl.text = "has mentioned you."
         }
@@ -132,14 +131,14 @@ class newsVC: UITableViewController {
         }
         
         
-        // asign index of button
+        // assign index of the button
         cell.usernameBtn.layer.setValue(indexPath, forKey: "index")
 
         return cell
     }
 
     
-    // clicked username button
+    // click the username button
     @IBAction func usernameBtn_click(_ sender: AnyObject) {
         
         // call index of button
@@ -148,7 +147,7 @@ class newsVC: UITableViewController {
         // call cell to call further cell data
         let cell = tableView.cellForRow(at: i) as! newsCell
         
-        // if user tapped on himself go home, else go guest
+        // if user tapped on itself, go home; else go to guest page
         if cell.usernameBtn.titleLabel?.text == PFUser.current()?.username {
             let home = self.storyboard?.instantiateViewController(withIdentifier: "homeVC") as! homeVC
             self.navigationController?.pushViewController(home, animated: true)
@@ -160,58 +159,58 @@ class newsVC: UITableViewController {
     }
     
     
-    // clicked cell
+    // click cell
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         // call cell for calling cell data
         let cell = tableView.cellForRow(at: indexPath) as! newsCell
         
         
-        // going to @menionted comments
+        // going to @mentioned comments
         if cell.infoLbl.text == "has mentioned you." {
             
-            // send related data to gloval variable
+            // send relating data to gloval variables
             commentuuid.append(uuidArray[indexPath.row])
             commentowner.append(ownerArray[indexPath.row])
             
-            // go comments
+            // go to comments
             let comment = self.storyboard?.instantiateViewController(withIdentifier: "commentVC") as! commentVC
             self.navigationController?.pushViewController(comment, animated: true)
         }
         
         
-        // going to own comments
+        // go to own comments
         if cell.infoLbl.text == "has commented your post." {
             
             // send related data to gloval variable
             commentuuid.append(uuidArray[indexPath.row])
             commentowner.append(ownerArray[indexPath.row])
             
-            // go comments
+            // go to comments
             let comment = self.storyboard?.instantiateViewController(withIdentifier: "commentVC") as! commentVC
             self.navigationController?.pushViewController(comment, animated: true)
         }
         
         
-        // going to user followed current user
+        // going to user who followed the current user
         if cell.infoLbl.text == "now following you." {
             
-            // take guestname
+            // take theguestname
             guestname.append(cell.usernameBtn.titleLabel!.text!)
             
-            // go guest
+            // go to guest
             let guest = self.storyboard?.instantiateViewController(withIdentifier: "guestVC") as! guestVC
             self.navigationController?.pushViewController(guest, animated: true)
         }
         
         
-        // going to liked post
+        // going to post liked
         if cell.infoLbl.text == "likes your post." {
             
-            // take post uuid
+            // take post UUID
             postuuid.append(uuidArray[indexPath.row])
             
-            // go post
+            // go to post
             let post = self.storyboard?.instantiateViewController(withIdentifier: "postVC") as! postVC
             self.navigationController?.pushViewController(post, animated: true)
         }

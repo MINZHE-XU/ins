@@ -12,28 +12,27 @@ import Parse
 
 class homeVC: UICollectionViewController {
 
-    // refresher variable
+    // Declaring the refresher variable
     var refresher : UIRefreshControl!
     
-    // size of page
+    // Defining size of pages
     var page : Int = 12
     
-    // arrays to hold server information
+    // Defining arrays to hold server information
     var uuidArray = [String]()
     var picArray = [PFFile]()
-    
     
     // default func
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // always vertical scroll
+        // always scroll vertically
         self.collectionView?.alwaysBounceVertical = true
         
-        // background color
+        // set background color
         collectionView?.backgroundColor = .white
 
-        // title at the top
+        // title at the top of page
         self.navigationItem.title = PFUser.current()?.username?.uppercased()
         
         // pull to refresh
@@ -41,27 +40,25 @@ class homeVC: UICollectionViewController {
         refresher.addTarget(self, action: #selector(homeVC.refresh), for: UIControlEvents.valueChanged)
         collectionView?.addSubview(refresher)
         
-        // receive notification from editVC
+        // receiving notifications from editVC
         NotificationCenter.default.addObserver(self, selector: #selector(homeVC.reload(_:)), name: NSNotification.Name(rawValue: "reload"), object: nil)
         
         
-        // load posts func
+        // loadposts function
         loadPosts()
     }
     
-    
-    // refreshing func
     func refresh() {
         
         // reload posts
         loadPosts()
         
-        // stop refresher animating
+        // stop refresher animation
         refresher.endRefreshing()
     }
     
     
-    // reloading func after received notification
+    // reloading func after having received notification
     func reload(_ notification:Notification) {
         collectionView?.reloadData()
     }
@@ -70,18 +67,18 @@ class homeVC: UICollectionViewController {
     // load posts func
     func loadPosts() {
         
-        // request infomration from server
+        // request infomration from the server
         let query = PFQuery(className: "posts")
         query.whereKey("username", equalTo: PFUser.current()!.username!)
         query.limit = page
         query.findObjectsInBackground (block: { (objects, error) -> Void in
             if error == nil {
                 
-                // clean up
+                // cleaning up!
                 self.uuidArray.removeAll(keepingCapacity: false)
                 self.picArray.removeAll(keepingCapacity: false)
                 
-                // find objects related to our request
+                // find objects relating to our request
                 for object in objects! {
                     
                     // add found data to arrays (holders)
@@ -98,14 +95,12 @@ class homeVC: UICollectionViewController {
         
     }
     
-    
-    // load more while scrolling down
+    // load more contents while scrolling down
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y >= scrollView.contentSize.height - self.view.frame.size.height {
             loadMore()
         }
     }
-    
     
     // paging
     func loadMore() {
@@ -113,21 +108,21 @@ class homeVC: UICollectionViewController {
         // if there is more objects
         if page <= picArray.count {
             
-            // increase page size
+            // increase the size of pages
             page = page + 12
             
-            // load more posts
+            // loading more posts:
             let query = PFQuery(className: "posts")
             query.whereKey("username", equalTo: PFUser.current()!.username!)
             query.limit = page
             query.findObjectsInBackground(block: { (objects, error) -> Void in
                 if error == nil {
                     
-                    // clean up
+                    // cleaning up!
                     self.uuidArray.removeAll(keepingCapacity: false)
                     self.picArray.removeAll(keepingCapacity: false)
                     
-                    // find related objects
+                    // find relating objects
                     for object in objects! {
                         self.uuidArray.append(object.value(forKey: "uuid") as! String)
                         self.picArray.append(object.value(forKey: "pic") as! PFFile)
@@ -144,7 +139,6 @@ class homeVC: UICollectionViewController {
         
     }
     
-    
     // cell numb
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return picArray.count
@@ -158,13 +152,13 @@ class homeVC: UICollectionViewController {
     }
     
     
-    // cell config
+    // cell configuration
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        // define cell
+        // defining cell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! pictureCell
         
-        // get picture from the picArray
+        // get pictures from the picArray
         picArray[indexPath.row].getDataInBackground { (data, error) -> Void in
             if error == nil {
                 cell.picImg.image = UIImage(data: data!)
@@ -175,15 +169,15 @@ class homeVC: UICollectionViewController {
     }
 
     
-    // header config
+    // header configuration
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
-        // define header
+        // defining the header
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "Header", for: indexPath) as! headerView
         
         
-        // STEP 1. Get user data
-        // get users data with connections to collumns of PFuser class
+        // STEP 1: Get user data
+        // get users' data with connections to columns of PFuser class
         header.fullnameLbl.text = (PFUser.current()?.object(forKey: "fullname") as? String)?.uppercased()
         header.bioLbl.text = PFUser.current()?.object(forKey: "bio") as? String
         header.bioLbl.sizeToFit()
@@ -194,8 +188,8 @@ class homeVC: UICollectionViewController {
         header.button.setTitle("edit profile", for: UIControlState())
         
         
-        // STEP 2. Count statistics
-        // count total posts
+        // STEP 2: Count statistics
+        // count the number of total posts
         let posts = PFQuery(className: "posts")
         posts.whereKey("username", equalTo: PFUser.current()!.username!)
         posts.countObjectsInBackground (block: { (count, error) -> Void in
@@ -204,7 +198,7 @@ class homeVC: UICollectionViewController {
             }
         })
         
-        // count total followers
+        // counting total followers
         let followers = PFQuery(className: "follow")
         followers.whereKey("following", equalTo: PFUser.current()!.username!)
         followers.countObjectsInBackground (block: { (count, error) -> Void in
@@ -213,7 +207,7 @@ class homeVC: UICollectionViewController {
             }
         })
         
-        // count total followings
+        // and counting total followings
         let followings = PFQuery(className: "follow")
         followings.whereKey("follower", equalTo: PFUser.current()!.username!)
         followings.countObjectsInBackground (block: { (count, error) -> Void in
@@ -222,8 +216,7 @@ class homeVC: UICollectionViewController {
             }
         })
         
-        
-        // STEP 3. Implement tap gestures
+        // STEP 3: Implementation of tap gestures
         // tap posts
         let postsTap = UITapGestureRecognizer(target: self, action: #selector(homeVC.postsTap))
         postsTap.numberOfTapsRequired = 1
@@ -246,7 +239,7 @@ class homeVC: UICollectionViewController {
     }
     
     
-    // taped posts label
+    // tap posts label:
     func postsTap() {
         if !picArray.isEmpty {
             let index = IndexPath(item: 0, section: 0)
@@ -254,7 +247,7 @@ class homeVC: UICollectionViewController {
         }
     }
     
-    // tapped followers label
+    // tap followers label:
     func followersTap() {
         
         user = PFUser.current()!.username!
@@ -267,7 +260,7 @@ class homeVC: UICollectionViewController {
         self.navigationController?.pushViewController(followers, animated: true)
     }
     
-    // tapped followings label
+    // tap followings label
     func followingsTap() {
         
         user = PFUser.current()!.username!
@@ -281,14 +274,14 @@ class homeVC: UICollectionViewController {
     }
     
     
-    // clicked log out
+    // click log out
     @IBAction func logout(_ sender: AnyObject) {
     
-        // implement log out
+        // implementing log out
         PFUser.logOutInBackground { (error) -> Void in
             if error == nil {
                 
-                // remove logged in user from App memory
+                // remove logged user from App memory
                 UserDefaults.standard.removeObject(forKey: "username")
                 UserDefaults.standard.synchronize()
                 
@@ -302,13 +295,13 @@ class homeVC: UICollectionViewController {
     }
     
     
-    // go post
+    // go to posts
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        // send post uuid to "postuuid" variable
+        // send post UUID to "postuuid" variable
         postuuid.append(uuidArray[indexPath.row])
         
-        // navigate to post view controller
+        // navigation to the post view controller
         let post = self.storyboard?.instantiateViewController(withIdentifier: "postVC") as! postVC
         self.navigationController?.pushViewController(post, animated: true)
     }

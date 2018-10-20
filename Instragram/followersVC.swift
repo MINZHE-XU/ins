@@ -9,17 +9,16 @@
 import UIKit
 import Parse
 
-
 var user = String()
 var category = String()
 
 class followersVC: UITableViewController {
     
-    // arrays to hold data received from servers
+    // arrays holding data received from the servers
     var usernameArray = [String]()
     var avaArray = [PFFile]()
     
-    // array showing who do we follow or who followings us
+    // Declaring the array showing who we follow or who're following us
     var followArray = [String]()
     
     
@@ -27,62 +26,57 @@ class followersVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // title at the top
+        // title on top
         self.navigationItem.title = category.uppercased()
-        
         
         // new back button
         self.navigationItem.hidesBackButton = true
         let backBtn = UIBarButtonItem(image: UIImage(named: "back.png"), style: .plain, target: self, action: #selector(followersVC.back(_:)))
         self.navigationItem.leftBarButtonItem = backBtn
         
-        // swipe to go back
+        // swipe to return
         let backSwipe = UISwipeGestureRecognizer(target: self, action: #selector(followersVC.back(_:)))
         backSwipe.direction = UISwipeGestureRecognizerDirection.right
         self.view.addGestureRecognizer(backSwipe)
 
-        
-        // load followers if tapped on followers label
+        // load followers when tap on followers label
         if category == "followers" {
             loadFollowers()
         }
         
-        // load followings if tapped on followings label
+        // load followings when tap on followings label
         if category == "followings" {
             loadFollowings()
         }
         
     }
     
-    
     // loading followers
     func loadFollowers() {
         
-        // STEP 1. Find in FOLLOW class people following User
-        // find followers of user
+        // STEP 1: Find people following User in FOLLOW class
         let followQuery = PFQuery(className: "follow")
         followQuery.whereKey("following", equalTo: user)
         followQuery.findObjectsInBackground (block: { (objects, error) -> Void in
             if error == nil {
                 
-                // clean up
+                // cleaning up
                 self.followArray.removeAll(keepingCapacity: false)
                 
-                // STEP 2. Hold received data
-                // find related objects depending on query settings
+                // STEP 2: Holding received data
+                // find relating objects depending on query settings
                 for object in objects! {
                     self.followArray.append(object.value(forKey: "follower") as! String)
                 }
                 
-                // STEP 3. Find in USER class data of users following "User"
-                // find users following user
+                // STEP 3: Find in USER class data of users following "User"
                 let query = PFUser.query()
                 query?.whereKey("username", containedIn: self.followArray)
                 query?.addDescendingOrder("createdAt")
                 query?.findObjectsInBackground(block: { (objects, error) -> Void in
                     if error == nil {
                         
-                        // clean up
+                        // cleaning up
                         self.usernameArray.removeAll(keepingCapacity: false)
                         self.avaArray.removeAll(keepingCapacity: false)
                         
@@ -103,12 +97,10 @@ class followersVC: UITableViewController {
         })
         
     }
-    
-    
-    // loading followings
+
     func loadFollowings() {
         
-        // STEP 1. Find people followed by User
+        // STEP 1: Find people followed by User
         let followQuery = PFQuery(className: "follow")
         followQuery.whereKey("follower", equalTo: user)
         followQuery.findObjectsInBackground (block: { (objects, error) -> Void in
