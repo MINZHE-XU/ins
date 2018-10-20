@@ -49,7 +49,7 @@ class followersCell: UITableViewCell {
             object.saveInBackground(block: { (success, error) -> Void in
                 if success {
                     self.followBtn.setTitle("FOLLOWING", for: UIControlState())
-                    self.followBtn.backgroundColor = .green
+                    self.followBtn.backgroundColor = UIColor.init(red: 0.00, green: 0.62, blue: 0.85, alpha: 1.0)
                 } else {
                     print(error?.localizedDescription)
                 }

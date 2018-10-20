@@ -70,7 +70,7 @@ class headerView: UICollectionReusableView {
             object.saveInBackground(block: { (success, error) -> Void in
                 if success {
                     self.button.setTitle("FOLLOWING", for: UIControlState())
-                    self.button.backgroundColor = .green
+                    self.button.backgroundColor = UIColor.init(red: 0.00, green: 0.62, blue: 0.85, alpha: 1.0)
                     
                     // send follow notification
                     let newsObj = PFObject(className: "news")
