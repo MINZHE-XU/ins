@@ -15,6 +15,7 @@ class newsCell: UITableViewCell {
     @IBOutlet weak var usernameBtn: UIButton!
     @IBOutlet weak var infoLbl: UILabel!
     @IBOutlet weak var dateLbl: UILabel!
+    @IBOutlet weak var toUserBtn: UIButton!
     
     
     // default func
@@ -26,14 +27,19 @@ class newsCell: UITableViewCell {
         usernameBtn.translatesAutoresizingMaskIntoConstraints = false
         infoLbl.translatesAutoresizingMaskIntoConstraints = false
         dateLbl.translatesAutoresizingMaskIntoConstraints = false
+        toUserBtn.translatesAutoresizingMaskIntoConstraints = false
         
         self.contentView.addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "H:|-10-[ava(30)]-10-[username]-7-[info]-7-[date]",
-            options: [], metrics: nil, views: ["ava":avaImg, "username":usernameBtn, "info":infoLbl, "date":dateLbl]))
+            withVisualFormat: "H:|-10-[ava(30)]-10-[username]-7-[info]-7-[toUserBtn]-7-[date]",
+            options: [], metrics: nil, views: ["ava":avaImg, "toUserBtn":toUserBtn,"username":usernameBtn, "info":infoLbl, "date":dateLbl]))
         
         self.contentView.addConstraints(NSLayoutConstraint.constraints(
             withVisualFormat: "V:|-10-[ava(30)]-10-|",
             options: [], metrics: nil, views: ["ava":avaImg]))
+        
+        self.contentView.addConstraints(NSLayoutConstraint.constraints(
+            withVisualFormat: "V:|-10-[toUserBtn(30)]",
+            options: [], metrics: nil, views: ["toUserBtn":toUserBtn]))
         
         self.contentView.addConstraints(NSLayoutConstraint.constraints(
             withVisualFormat: "V:|-10-[username(30)]",

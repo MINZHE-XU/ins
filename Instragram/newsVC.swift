@@ -87,6 +87,7 @@ class newsVC: UITableViewController {
                     for object in objects! {
                         let elementQuery = PFQuery(className:"news")
                         elementQuery.whereKey("by", equalTo: object.value(forKey: "following") as! String )
+                        elementQuery.whereKey("to", notEqualTo: PFUser.current()!.username!)
                         newsQueryList.append(elementQuery)
                     }
                     let listQuery = PFQuery.orQuery(withSubqueries: newsQueryList)
@@ -132,6 +133,7 @@ class newsVC: UITableViewController {
 
         // connect cell objects with received data from server
         cell.usernameBtn.setTitle(usernameArray[indexPath.row], for: UIControlState())
+        cell.toUserBtn.setTitle(towardArray[indexPath.row], for: UIControlState())
         avaArray[indexPath.row].getDataInBackground { (data, error) -> Void in
             if error == nil {
                 cell.avaImg.image = UIImage(data: data!)
@@ -207,6 +209,7 @@ class newsVC: UITableViewController {
         
         // call index of button
         let i = sender.layer.value(forKey: "index") as! IndexPath
+
         
         // call cell to call further cell data
         let cell = tableView.cellForRow(at: i) as! newsCell
@@ -221,6 +224,27 @@ class newsVC: UITableViewController {
             self.navigationController?.pushViewController(guest, animated: true)
         }
     }
+    
+    //click toUserBtn
+    
+    @IBAction func toUserBtn_clicked(_ sender: AnyObject) {
+        // call index of button
+        let i = sender.layer.value(forKey: "index") as! IndexPath
+
+        // call cell to call further cell data
+        let cell = tableView.cellForRow(at: i) as! newsCell
+        
+        // if user tapped on himself go home, else go guest
+        if cell.toUserBtn.titleLabel?.text == PFUser.current()?.username {
+            let home = self.storyboard?.instantiateViewController(withIdentifier: "homeVC") as! homeVC
+            self.navigationController?.pushViewController(home, animated: true)
+        } else {
+            guestname.append(cell.toUserBtn.titleLabel!.text!)
+            let guest = self.storyboard?.instantiateViewController(withIdentifier: "guestVC") as! guestVC
+            self.navigationController?.pushViewController(guest, animated: true)
+        }
+    }
+    
     
     
     // clicked cell
