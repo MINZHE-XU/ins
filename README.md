@@ -12,4 +12,4 @@ We were working on two other git repositories before moving to this one. Folder 
 Note: Please open the Instragram.xcworkspace file in Xcode instead of opening Instragram.xcworkproj to view and test this project.
 
 run command to install the environment and compile the app
-`$ pod install
+`$ pod install`
