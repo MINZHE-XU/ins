@@ -146,7 +146,7 @@ class homeVC: UICollectionViewController {
     
     
     // cell size
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+    @objc func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         let size = CGSize(width: self.view.frame.size.width / 3, height: self.view.frame.size.width / 3)
         return size
     }
