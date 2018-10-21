@@ -28,6 +28,8 @@
 	<string>Microphone</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>PhotoLibrary</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>PhotoLibrary</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Pacifico.ttf</string>
