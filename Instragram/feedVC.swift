@@ -60,19 +60,19 @@ class feedVC: UITableViewController {
     
     
     // refreshing function after like to update digit
-    func refresh() {
+    @objc func refresh() {
         tableView.reloadData()
     }
     
     
     // reloading func with posts after having received notification
-    func uploaded(_ notification:Notification) {
+    @objc func uploaded(_ notification:Notification) {
         loadPosts()
     }
     
     
     // posts loading
-    func loadPosts() {
+    @objc func loadPosts() {
         
         // STEP 1: Find posts related to people we follow
         let followQuery = PFQuery(className: "follow")

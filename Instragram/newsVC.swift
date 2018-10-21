@@ -35,6 +35,7 @@ class newsVC: UITableViewController {
         // requesting notifications:
         let query = PFQuery(className: "news")
         query.whereKey("to", equalTo: PFUser.current()!.username!)
+        query.addDescendingOrder("updatedAt")
         query.limit = 30
         query.findObjectsInBackground (block: { (objects, error) -> Void in
             if error == nil {
@@ -87,11 +88,12 @@ class newsVC: UITableViewController {
                     for object in objects! {
                         let elementQuery = PFQuery(className:"news")
                         elementQuery.whereKey("by", equalTo: object.value(forKey: "following") as! String )
+                        elementQuery.whereKey("to", notEqualTo:  root )
                         newsQueryList.append(elementQuery)
                     }
                 }
                 let listQuery = PFQuery.orQuery(withSubqueries: newsQueryList)
-                
+                listQuery.addDescendingOrder("createdAt")
                 //get sub followers:
                 listQuery.findObjectsInBackground (block: { (objects2, error2) -> Void in
                     // find relating objects
@@ -127,7 +129,7 @@ class newsVC: UITableViewController {
 
         // connect cell objects with received data from server
         cell.usernameBtn.setTitle(usernameArray[indexPath.row], for: UIControlState())
-        cell.toUserBtn.setTitle(towardUserArray[indexPath.row], for: UIControlState())
+        
         
         avaArray[indexPath.row].getDataInBackground { (data, error) -> Void in
             if error == nil {
@@ -165,6 +167,7 @@ class newsVC: UITableViewController {
         
         if(towardUserArray[indexPath.row] == PFUser.current()!.username!){
             // if is user himself
+            cell.toUserBtn.setTitle("",for: UIControlState())
             cell.infoLbl2.text = ""
             if typeArray[indexPath.row] == "mention" {
                 cell.infoLbl.text = "has mentioned you."
@@ -182,6 +185,7 @@ class newsVC: UITableViewController {
         }else{
             // if is other user
             // if is user himself
+            cell.toUserBtn.setTitle(towardUserArray[indexPath.row], for: UIControlState())
             if typeArray[indexPath.row] == "mention" {
                 cell.infoLbl.text = "has mentioned "
                 cell.infoLbl2.text = ""

@@ -128,7 +128,7 @@ class tabbarVC: UITabBarController {
     
     
     // clicked upload button (and go to upload)
-    func upload(_ sender : UIButton) {
+    @objc func upload(_ sender : UIButton) {
         self.selectedIndex = 2
     }
     

@@ -71,7 +71,7 @@ class editVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     
     // func to hide the phone keyboard
-    func hideKeyboard() {
+    @objc func hideKeyboard() {
         self.view.endEditing(true)
     }
     
@@ -100,7 +100,7 @@ class editVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     
     // func to call the UIImagePickerController
-    func loadImg (_ recognizer : UITapGestureRecognizer) {
+    @objc func loadImg (_ recognizer : UITapGestureRecognizer) {
         let picker = UIImagePickerController()
         picker.delegate = self
         picker.sourceType = .photoLibrary

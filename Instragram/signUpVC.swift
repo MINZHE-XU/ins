@@ -92,7 +92,7 @@ class signUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     
     
     // calling the picker to select a image
-    func loadImg(_ recognizer:UITapGestureRecognizer) {
+    @objc func loadImg(_ recognizer:UITapGestureRecognizer) {
         let picker = UIImagePickerController()
         picker.delegate = self
         picker.sourceType = .photoLibrary
@@ -115,7 +115,7 @@ class signUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     
     
     // show phone keyboard
-    func showKeyboard(_ notification:Notification) {
+    @objc func showKeyboard(_ notification:Notification) {
         
         // define the size of phone keyboard
         keyboard = ((notification.userInfo?[UIKeyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue)!
@@ -128,7 +128,7 @@ class signUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     
     
     // hiding phone keyboard func
-    func hideKeybard(_ notification:Notification) {
+    @objc func hideKeybard(_ notification:Notification) {
         
         // Animation moving down UI
         UIView.animate(withDuration: 0.4, animations: { () -> Void in

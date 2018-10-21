@@ -61,7 +61,7 @@ class signInVC: UIViewController {
     
     
     // hide keyboard func
-    func hideKeyboard(_ recognizer : UITapGestureRecognizer) {
+    @objc func hideKeyboard(_ recognizer : UITapGestureRecognizer) {
         self.view.endEditing(true)
     }
 

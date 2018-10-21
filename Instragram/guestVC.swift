@@ -53,7 +53,7 @@ class guestVC: UICollectionViewController {
         loadPosts()
     }
     
-    func back(_ sender : UIBarButtonItem) {
+    @objc func back(_ sender : UIBarButtonItem) {
         
         // push back
         _ = self.navigationController?.popViewController(animated: true)
@@ -64,7 +64,7 @@ class guestVC: UICollectionViewController {
         }
     }
     
-    func refresh() {
+    @objc func refresh() {
         refresher.endRefreshing()
         loadPosts()
     }
@@ -294,7 +294,7 @@ class guestVC: UICollectionViewController {
 
     
     // tap posts label
-    func postsTap() {
+    @objc func postsTap() {
         if !picArray.isEmpty {
             let index = IndexPath(item: 0, section: 0)
             self.collectionView?.scrollToItem(at: index, at: UICollectionViewScrollPosition.top, animated: true)
@@ -302,7 +302,7 @@ class guestVC: UICollectionViewController {
     }
     
     // tap followers label
-    func followersTap() {
+    @objc func followersTap() {
         user = guestname.last!
         category = "followers"
         
@@ -315,7 +315,7 @@ class guestVC: UICollectionViewController {
     }
     
     // tap followings label
-    func followingsTap() {
+    @objc func followingsTap() {
         user = guestname.last!
         category = "followings"
         

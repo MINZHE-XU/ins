@@ -54,7 +54,7 @@ class hashtagsVC: UICollectionViewController {
     
     
     // defining the back function
-    func back(_ sender : UIBarButtonItem) {
+    @objc func back(_ sender : UIBarButtonItem) {
         
         // pushing back
         _ = self.navigationController?.popViewController(animated: true)
@@ -67,7 +67,7 @@ class hashtagsVC: UICollectionViewController {
     
     
     // defining refresh function
-    func refresh() {
+    @objc func refresh() {
         loadHashtags()
     }
 

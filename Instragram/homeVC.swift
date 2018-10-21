@@ -48,7 +48,7 @@ class homeVC: UICollectionViewController {
         loadPosts()
     }
     
-    func refresh() {
+    @objc func refresh() {
         
         // reload posts
         loadPosts()
@@ -59,7 +59,7 @@ class homeVC: UICollectionViewController {
     
     
     // reloading func after having received notification
-    func reload(_ notification:Notification) {
+    @objc func reload(_ notification:Notification) {
         collectionView?.reloadData()
     }
     
@@ -240,7 +240,7 @@ class homeVC: UICollectionViewController {
     
     
     // tap posts label:
-    func postsTap() {
+    @objc func postsTap() {
         if !picArray.isEmpty {
             let index = IndexPath(item: 0, section: 0)
             self.collectionView?.scrollToItem(at: index, at: UICollectionViewScrollPosition.top, animated: true)
@@ -248,7 +248,7 @@ class homeVC: UICollectionViewController {
     }
     
     // tap followers label:
-    func followersTap() {
+    @objc func followersTap() {
         
         user = PFUser.current()!.username!
         category = "followers"
@@ -261,7 +261,7 @@ class homeVC: UICollectionViewController {
     }
     
     // tap followings label
-    func followingsTap() {
+    @objc func followingsTap() {
         
         user = PFUser.current()!.username!
         category = "followings"

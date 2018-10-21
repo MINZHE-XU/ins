@@ -74,7 +74,7 @@ class postVC: UITableViewController {
         
     }
     
-    func refresh() {
+    @objc func refresh() {
         self.tableView.reloadData()
     }
 
@@ -371,7 +371,7 @@ class postVC: UITableViewController {
     
     
     // go back function
-    func back(_ sender: UIBarButtonItem) {
+    @objc func back(_ sender: UIBarButtonItem) {
         
         // push back
         _ = self.navigationController?.popViewController(animated: true)

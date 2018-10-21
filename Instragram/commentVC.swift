@@ -95,7 +95,7 @@ class commentVC: UIViewController, UITextViewDelegate, UITableViewDelegate, UITa
     
     
     // func loading when keyboard is shown
-    func keyboardWillShow(_ notification : Notification) {
+    @objc func keyboardWillShow(_ notification : Notification) {
         
         // defnine keyboard frame size
         keyboard = ((notification.userInfo?[UIKeyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue)!
@@ -110,7 +110,7 @@ class commentVC: UIViewController, UITextViewDelegate, UITableViewDelegate, UITa
     
     
     // func loading when keyboard is hidden
-    func keyboardWillHide(_ notification : Notification) {
+    @objc func keyboardWillHide(_ notification : Notification) {
         
         // move UI down
         UIView.animate(withDuration: 0.4, animations: { () -> Void in
@@ -640,7 +640,7 @@ class commentVC: UIViewController, UITextViewDelegate, UITableViewDelegate, UITa
     
     
     // go back
-    func back(_ sender : UIBarButtonItem) {
+    @objc func back(_ sender : UIBarButtonItem) {
         
         // push back
         _ = self.navigationController?.popViewController(animated: true)

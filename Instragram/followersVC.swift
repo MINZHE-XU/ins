@@ -219,7 +219,7 @@ class followersVC: UITableViewController {
         }
     }
     
-    func back(_ sender : UITabBarItem) {
+    @objc func back(_ sender : UITabBarItem) {
         _ = self.navigationController?.popViewController(animated: true)
     }
 
