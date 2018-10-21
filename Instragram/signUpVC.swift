@@ -109,7 +109,7 @@ class signUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     
     
     // hide phone keyboard when tapped
-    func hideKeyboardTap(_ recoginizer:UITapGestureRecognizer) {
+    @objc func hideKeyboardTap(_ recoginizer:UITapGestureRecognizer) {
         self.view.endEditing(true)
     }
     

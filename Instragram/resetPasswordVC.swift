@@ -70,9 +70,7 @@ class resetPasswordVC: UIViewController {
                 })
                 alert.addAction(ok)
                 self.present(alert, animated: true, completion: nil)
-            } else {
-                print(error?.localizedDescription)
-            }
+            } 
         }
         
     }

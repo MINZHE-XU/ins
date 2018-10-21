@@ -77,7 +77,7 @@ class editVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     
     // func when the phone keyboard is shown
-    func keyboardWillShow(_ notification: Notification) {
+    @objc func keyboardWillShow(_ notification: Notification) {
     
         // defining frame size of the phone keyboard
         keyboard = ((notification.userInfo?[UIKeyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue)!
@@ -90,7 +90,7 @@ class editVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     
     // func when the phone keyboard is hidden
-    func keyboardWillHide(_ notification: Notification) {
+    @objc func keyboardWillHide(_ notification: Notification) {
         
         // movin' down animation
         UIView.animate(withDuration: 0.4, animations: { () -> Void in

@@ -197,8 +197,7 @@ class uploadVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     func alignment() {
         
         let width = self.view.frame.size.width
-        let height = self.view.frame.size.height
-        
+
         picImg.frame = CGRect(x: 120, y: 15, width: width-240, height: width-240)
         titleTxt.frame = CGRect(x: 60, y: picImg.frame.origin.y  + picImg.frame.size.height+30, width: width-120, height: 100)
         

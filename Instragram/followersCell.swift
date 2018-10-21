@@ -50,8 +50,6 @@ class followersCell: UITableViewCell {
                 if success {
                     self.followBtn.setTitle("FOLLOWING", for: UIControlState())
                     self.followBtn.backgroundColor = UIColor.init(red: 0.00, green: 0.62, blue: 0.85, alpha: 1.0)
-                } else {
-                    print(error?.localizedDescription)
                 }
             })
             
@@ -68,15 +66,11 @@ class followersCell: UITableViewCell {
                             if success {
                                 self.followBtn.setTitle("FOLLOW", for: UIControlState())
                                 self.followBtn.backgroundColor = .lightGray
-                            } else {
-                                print(error?.localizedDescription)
                             }
                         })
                     }
                     
-                } else {
-                    print(error?.localizedDescription)
-                }
+                } 
             })
             
         }

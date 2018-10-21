@@ -37,7 +37,6 @@ class tabbarVC: UITabBarController {
         // customize the button
         
         let itemHeight = self.tabBar.frame.size.height
-        let itemWidth = self.view.frame.size.width / 5
         tabBarPostButton.frame = CGRect(x: ( self.view.frame.size.width - itemHeight)/2, y: self.view.frame.size.height - itemHeight, width: itemHeight, height: itemHeight)
         tabBarPostButton.setBackgroundImage(UIImage(named: "upload.png"), for: UIControlState())
         tabBarPostButton.adjustsImageWhenHighlighted = false
