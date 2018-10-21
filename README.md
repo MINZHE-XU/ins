@@ -5,6 +5,9 @@
 
 Our choice in this project is the Instagram Viewer. 
 
+YouTube Short Link: https://youtu.be/WT-J2a2rqJs
+YouTube Long Link: https://www.youtube.com/watch?v=WT-J2a2rqJs
+
 We have referenced the open-source YPImagePicker, according to the MIT License, from https://github.com/Yummypets/YPImagePicker.
 
 We were working on two other git repositories before moving to this one. Folder 'instgram' shows the final state of the previous repository, which can be ignored.
