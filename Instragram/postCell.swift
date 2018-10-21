@@ -31,7 +31,6 @@ class postCell: UITableViewCell {
     @IBOutlet weak var titleLbl: KILabel!
     @IBOutlet weak var uuidLbl: UILabel!
     @IBOutlet weak var likepeopleLbl: UILabel!
-    
 
     
     // default func
@@ -43,9 +42,11 @@ class postCell: UITableViewCell {
         
         // double tap to like
         let likeTap = UITapGestureRecognizer(target: self, action: #selector(postCell.likeTap))
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(postCell.longPress))
         likeTap.numberOfTapsRequired = 2
         picImg.isUserInteractionEnabled = true
         picImg.addGestureRecognizer(likeTap)
+        picImg.addGestureRecognizer(longPress)
         
         
         // alignment
@@ -124,7 +125,10 @@ class postCell: UITableViewCell {
         avaImg.clipsToBounds = true
         
     }
-    
+    //long press to save or share
+    @objc func longPress() {
+        
+    }
     
     // double tap to like
     @objc func likeTap() {

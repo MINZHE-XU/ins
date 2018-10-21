@@ -83,6 +83,8 @@
 		52E0151A1C2C3CAE00D5CBAA /* news@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 52E015171C2C3CAD00D5CBAA /* news@2x.png */; };
 		52E0151B1C2C3CAE00D5CBAA /* news@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 52E015181C2C3CAD00D5CBAA /* news@3x.png */; };
 		55D5DBF505550FDDC3D0F47F /* Pods_Instragram.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E64FBFB34037809376936482 /* Pods_Instragram.framework */; };
+		9F58AE1B217ADDF80005C081 /* popVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F58AE1A217ADDF80005C081 /* popVC.swift */; };
+		9F58AE1D217C4D3A0005C081 /* icon_241-512.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F58AE1C217C4D340005C081 /* icon_241-512.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -180,6 +182,8 @@
 		52E015171C2C3CAD00D5CBAA /* news@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "news@2x.png"; sourceTree = "<group>"; };
 		52E015181C2C3CAD00D5CBAA /* news@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "news@3x.png"; sourceTree = "<group>"; };
 		97B0C2BB7093FFE4E1067199 /* Pods-Instragram.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Instragram.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Instragram/Pods-Instragram.debug.xcconfig"; sourceTree = "<group>"; };
+		9F58AE1A217ADDF80005C081 /* popVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = popVC.swift; sourceTree = "<group>"; };
+		9F58AE1C217C4D340005C081 /* icon_241-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_241-512.png"; sourceTree = "<group>"; };
 		B3AC1F01A7D83B0763A8F250 /* Pods-Instragram.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Instragram.release.xcconfig"; path = "Pods/Target Support Files/Pods-Instragram/Pods-Instragram.release.xcconfig"; sourceTree = "<group>"; };
 		E64FBFB34037809376936482 /* Pods_Instragram.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Instragram.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -242,6 +246,7 @@
 		5232121D1C2871FE00F97464 /* button items */ = {
 			isa = PBXGroup;
 			children = (
+				9F58AE1C217C4D340005C081 /* icon_241-512.png */,
 				5232121E1C2876B800F97464 /* logout.png */,
 				5232121F1C2876B800F97464 /* logout@2x.png */,
 				523212201C2876B800F97464 /* logout@3x.png */,
@@ -290,6 +295,7 @@
 				52D303251C207F050021EF00 /* uploadVC.swift */,
 				52859E061C29C2A100A15032 /* usersVC.swift */,
 				526B2B461C19C507006627DD /* homeVC.swift */,
+				9F58AE1A217ADDF80005C081 /* popVC.swift */,
 				52E0150C1C2C399C00D5CBAA /* newsVC.swift */,
 				52E0150E1C2C39AE00D5CBAA /* newsCell.swift */,
 				52934A651C1F118F007769E5 /* editVC.swift */,
@@ -414,8 +420,9 @@
 				TargetAttributes = {
 					524554C51C15A114000E6444 = {
 						CreatedOnToolsVersion = 7.1;
-						DevelopmentTeam = 5863SQU82D;
+						DevelopmentTeam = 9LUXQ2J3PG;
 						LastSwiftMigration = 0920;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -453,6 +460,7 @@
 				5232121B1C28712900F97464 /* back@3x.png in Resources */,
 				521A39131C2D98A60066165F /* followIcon.png in Resources */,
 				52E0151B1C2C3CAE00D5CBAA /* news@3x.png in Resources */,
+				9F58AE1D217C4D3A0005C081 /* icon_241-512.png in Resources */,
 				52859E0C1C29CD9300A15032 /* users@2x.png in Resources */,
 				52AD18961C2342AF00858330 /* like.png in Resources */,
 				52791CEB1C183A23002DDB39 /* Pacifico.ttf in Resources */,
@@ -547,6 +555,7 @@
 			files = (
 				52859DF91C29AC4300A15032 /* feedVC.swift in Sources */,
 				52AD188E1C23305400858330 /* postVC.swift in Sources */,
+				9F58AE1B217ADDF80005C081 /* popVC.swift in Sources */,
 				5284FD241C2455DD000689FC /* navVC.swift in Sources */,
 				52AD18901C23306200858330 /* postCell.swift in Sources */,
 				52942A221C26B2A30076969B /* commentCell.swift in Sources */,
@@ -700,7 +709,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = 5863SQU82D;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9LUXQ2J3PG;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -709,8 +720,9 @@
 				INFOPLIST_FILE = Instragram/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = InstagramView;
+				PRODUCT_BUNDLE_IDENTIFIER = InstagramViewddd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Instragram/InstagramView-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
@@ -724,7 +736,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = 5863SQU82D;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9LUXQ2J3PG;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -733,8 +747,9 @@
 				INFOPLIST_FILE = Instragram/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = InstagramView;
+				PRODUCT_BUNDLE_IDENTIFIER = InstagramViewddd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Instragram/InstagramView-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;

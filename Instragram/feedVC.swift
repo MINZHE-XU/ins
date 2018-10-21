@@ -8,14 +8,24 @@
 
 import UIKit
 import Parse
+import MultipeerConnectivity
 
 
 
-class feedVC: UITableViewController {
+class feedVC: UITableViewController, MCSessionDelegate, MCNearbyServiceAdvertiserDelegate, MCNearbyServiceBrowserDelegate {
+    
+    
 
     // UI objects
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     var refresher = UIRefreshControl()
+    
+    //MultipeerConnectivity
+    var myPeerID:MCPeerID!
+    var mcSession: MCSession!
+    var serviceAdvertiser : MCNearbyServiceAdvertiser!
+    var serviceBrowser : MCNearbyServiceBrowser!
+    
     
     // arrays to hold server data
     var usernameArray = [String]()
@@ -56,10 +66,34 @@ class feedVC: UITableViewController {
         // receive notification from uploadVC
         NotificationCenter.default.addObserver(self, selector: #selector(feedVC.uploaded(_:)), name: NSNotification.Name(rawValue: "uploaded"), object: nil)
         
+        //setup multipeer connectivity
+        setupConnectivity()
+        
+        
         // calling function to load posts
         loadPosts()
     }
+    deinit {
+        self.serviceAdvertiser.stopAdvertisingPeer()
+        self.serviceBrowser.stopBrowsingForPeers()
+    }
     
+    //setup multipeer connectivity
+    func setupConnectivity(){
+        
+        self.myPeerID = MCPeerID(displayName: PFUser.current()!.username!)
+        self.mcSession = MCSession(peer: myPeerID, securityIdentity: nil, encryptionPreference: .none)
+        self.mcSession.delegate = self
+        
+        self.serviceAdvertiser = MCNearbyServiceAdvertiser(peer: myPeerID, discoveryInfo:nil, serviceType: "share-post")
+        self.serviceBrowser = MCNearbyServiceBrowser(peer: myPeerID, serviceType: "share-post")
+        self.serviceAdvertiser.delegate = self
+        self.serviceBrowser.delegate = self
+        
+        self.serviceAdvertiser.startAdvertisingPeer()
+        self.serviceBrowser.startBrowsingForPeers()
+        
+    }
     
     // refreshign function after like to update degit
     func refresh() {
@@ -74,7 +108,7 @@ class feedVC: UITableViewController {
     
     
     // load posts
-    func loadPosts() {
+    @objc func loadPosts() {
         
         // STEP 1. Find posts realted to people who we are following
         let followQuery = PFQuery(className: "follow")
@@ -311,7 +345,8 @@ class feedVC: UITableViewController {
         // asign index
         cell.usernameBtn.layer.setValue(indexPath, forKey: "index")
         cell.commentBtn.layer.setValue(indexPath, forKey: "index")
-
+        cell.picImg.layer.setValue(indexPath, forKey: "index")
+        
         
         // @mention is tapped
         cell.titleLbl.userHandleLinkTapHandler = { label, handle, rang in
@@ -338,9 +373,64 @@ class feedVC: UITableViewController {
             self.navigationController?.pushViewController(hashvc, animated: true)
         }
         
+        
+        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressFunc(longPressRecognizer:)))
+        cell.picImg.addGestureRecognizer(longPressRecognizer)
         return cell
     }
+    @objc func longPressFunc(longPressRecognizer: UILongPressGestureRecognizer){
+        let viewPressed = longPressRecognizer.view as! UIImageView
+        let imagePressed = viewPressed.image
+        
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title:"Save Image", style: .default, handler: {action in
+            
+            //save to local album
+            UIImageWriteToSavedPhotosAlbum(imagePressed!, self, #selector(self.saveImage(_:didFinishSavingWithError:contextInfo:)), nil)
+        }))
+        actionSheet.addAction(UIAlertAction(title:"Share In Range", style: .default, handler: {action in
+            let imageData = UIImagePNGRepresentation(imagePressed!)
+            
+            //share in range
+            self.shareInRange(dataSharing: imageData!)
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        self.present(actionSheet,animated:true)
+    }
     
+    //for saving image
+    @objc func saveImage(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        if let error = error {
+            // we got back an error!
+            let ac = UIAlertController(title: "Save error", message: error.localizedDescription, preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+        } else {
+            let ac = UIAlertController(title: "Saved!", message:nil, preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+        }
+    }
+    func shareInRange(dataSharing: Data){
+        if mcSession.connectedPeers.count > 0 {
+            
+            let alert = UIAlertController(title: "In Range Sharing", message: "Share this post in range?", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Share", style: .default, handler: {action in
+                self.sendToPeer(data: dataSharing)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            
+            self.present(alert, animated: true)
+            
+        } else{
+            let alert = UIAlertController(title: "In Range Sharing", message: "No one in range :-(", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+        }
+    }
     
     // clicked username button
     @IBAction func usernameBtn_click(_ sender: AnyObject) {
@@ -362,7 +452,39 @@ class feedVC: UITableViewController {
         }
         
     }
-    
+    //share data in range
+    func sendToPeer(data:Data){
+        //send to peers
+        do {
+            try mcSession.send(data, toPeers: mcSession.connectedPeers, with: .reliable)
+        }
+        catch let error as NSError {
+            let ac = UIAlertController(title: "Send error", message: error.localizedDescription, preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+        }
+    }
+    //process received in range sharing data
+    func processDataReceived(data: Data, user: String){
+        if let imageData = UIImage(data: data) {
+            popImageReceived(image: imageData, userName: user)
+        } else{
+            NSLog("%@", "Data not image")
+        }
+    }
+    //pop up vew to show the received image
+    func popImageReceived (image:UIImage, userName: String){
+        let popUp = self.storyboard?.instantiateViewController(withIdentifier:"popVC") as! popVC
+        self.addChildViewController(popUp)
+        popUp.pparent = self
+        popUp.view.frame = popUp.view.frame
+        self.view.addSubview(popUp.view)
+        self.tableView.isScrollEnabled = false
+        popUp.displayImage.image = image
+        popUp.username.text = userName
+        popUp.didMove(toParentViewController: self)
+        
+    }
     
     // clicked comment button
     @IBAction func commentBtn_click(_ sender: AnyObject) {
@@ -389,6 +511,59 @@ class feedVC: UITableViewController {
         let ok = UIAlertAction(title: "OK", style: .cancel, handler: nil)
         alert.addAction(ok)
         present(alert, animated: true, completion: nil)
+    }
+    
+    //mcSessionDelegate
+    func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
+    
+    }
+    
+    func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
+        
+    }
+    func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
+        NSLog("%@", "didReceiveData")
+        DispatchQueue.main.async { [unowned self] in
+            self.processDataReceived(data:data, user:peerID.displayName)
+        }
+    }
+//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+//        if segue.identifier == "popSegue" {
+//            let ppvc = segue.popVC as UIViewController
+//            ppvc.displayImage = imageReceived
+//        }
+    
+    func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
+        NSLog("%@", "didStartReceivingResourceWithName")
+    }
+    
+    func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
+        NSLog("%@", "didFinishReceivingResourceWithName")
+    }
+    
+    //mcAdvertiserDelegate
+    func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: Error) {
+        NSLog("%@", "didNotStartAdvertisingPeer: \(error)")
+    }
+    
+    func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
+        NSLog("%@", "didReceiveInvitationFromPeer \(peerID)")
+        invitationHandler(true, mcSession)
+    }
+    
+    //mcNearbyServiceBroswerDelegate
+    func browser(_ browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: Error) {
+        NSLog("%@", "didNotStartBrowsingForPeers: \(error)")
+    }
+    
+    func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
+        NSLog("%@", "foundPeer: \(peerID)")
+        NSLog("%@", "invitePeer: \(peerID)")
+        browser.invitePeer(peerID, to: mcSession, withContext: nil, timeout: 10)
+    }
+    
+    func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
+        NSLog("%@", "lostPeer: \(peerID)")
     }
     
 }
