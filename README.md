@@ -14,3 +14,5 @@ Note: Please open the Instragram.xcworkspace file in Xcode instead of opening In
 run command to install the environment and compile the app
 
 `$ pod install`
+
+If the app does not work correctly, please use the APIkey `"4d4545c33b631d9828a418bf8cf52a133e3be480"` and the application ID (bundle identifier) `InstagramView.test`, which were created by using https://developer.dsphotoeditor.com/.
